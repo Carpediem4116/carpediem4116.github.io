@@ -1,0 +1,969 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>Database and Data Modelling (Znote) | @Carpediem4116</title><meta name="keywords" content="AS-CS"><meta name="author" content="Aaron,a1446008821@proton.me"><meta name="copyright" content="Aaron"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="Database and Data Modelling (Znote)"><meta name="application-name" content="Database and Data Modelling (Znote)"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="Database and Data Modelling (Znote)"><meta property="og:url" content="http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/index.html"><meta property="og:site_name" content="@Carpediem4116"><meta property="og:description" content="8.1. File Based System  Data stored in discrete files, stored on computer, and can be accessed, altered or removed by the user.  Disadvantages of"><meta property="og:locale" content="en"><meta property="og:image" content="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=4852c468-d774-4eb7-12bc-02df4c6de96d"><meta property="article:author" content="Aaron"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=4852c468-d774-4eb7-12bc-02df4c6de96d"><meta name="description" content="8.1. File Based System  Data stored in discrete files, stored on computer, and can be accessed, altered or removed by the user.  Disadvantages of"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/"><link rel="preconnect" href="//cdn.cbd.int"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: {"enable":true,"gptName":"AnZhiYu","mode":"local","switchBtn":false,"btnLink":"https://afdian.net/item/886a79d4db6711eda42a52540025c377","randomNum":3,"basicWordCount":1000,"key":"xxxx","Referer":"https://xx.xx/"},
+  diytitle: {"enable":true,"leaveTitle":"w(ﾟДﾟ)w 不要走！再看看嘛！","backTitle":"欢迎回来！"},
+  LA51: {"enable":true,"ck":null,"LingQueMonitorID":null},
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: undefined,
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":330},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"Author: Aaron","link":"Link: ","source":"Source: @Carpediem4116","info":"Copyright is owned by the author. For commercial reprints, please contact the author for authorization. For non-commercial reprints, please indicate the source.","copySuccess":"Copy success, copy and reprint please mark the address of this article"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"Traditional Chinese Activated Manually","cht_to_chs":"Simplified Chinese Activated Manually","day_to_night":"Dark Mode Activated Manually","night_to_day":"Light Mode Activated Manually","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '@Carpediem4116',
+  title: 'Database and Data Modelling (Znote)',
+  postAI: '',
+  pageFillDescription: '8.1. File Based System, Features of a DBMS, Tools in a DBMS, Normalization, Creating a database, Creating a table, Changing a table, Adding a primary key, Adding a foreign key, Example, Queries, SQL Operators, Data Maintenance, Concurrency Control, Deadlock, Backup, Types of Backups, Recovery, Common Techniques, 8.12. Database Security, Key Aspects, 8.14. Conclusion',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-26 22:57:50',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+          if (t === undefined) {
+            if (isLightMode) activateLightMode()
+            else if (isDarkMode) activateDarkMode()
+            else if (isNotSpecified || hasNoSupport) {
+              const now = new Date()
+              const hour = now.getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            window.matchMedia('(prefers-color-scheme: dark)').addListener(e => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://bu.dusays.com/2024/08/11/66b86f5363b26.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><a id="site-name" href="/" accesskey="h"><div class="title">@Carpediem4116</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="/path/to/qr_code_image_1.png" target="_blank"><img class="post-qr-code-img" alt="二维码1" src="/path/to/qr_code_image_1.png"/></a><div class="post-qr-code-desc">二维码1</div></li><li class="reward-item"><a href="/path/to/qr_code_image_2.png" target="_blank"><img class="post-qr-code-img" alt="二维码2" src="/path/to/qr_code_image_2.png"/></a><div class="post-qr-code-desc">二维码2</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> Newest Comments</span></div><div class="aside-list"><span>loading...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/A2-CS/" style="font-size: 1.05rem;">A2-CS<sup>4</sup></a><a href="/tags/AS-CS/" style="font-size: 1.05rem;">AS-CS<sup>6</sup></a><a href="/tags/Markdown/" style="font-size: 1.05rem;">Markdown<sup>2</sup></a><a href="/tags/Math/" style="font-size: 1.05rem;">Math<sup>4</sup></a><a href="/tags/Physcis/" style="font-size: 1.05rem;">Physcis<sup>1</sup></a><a href="/tags/Physics/" style="font-size: 1.05rem;">Physics<sup>3</sup></a><a href="/tags/vscode/" style="font-size: 1.05rem;">vscode<sup>1</sup></a><a href="/tags/%E6%9B%B4%E6%96%B0/" style="font-size: 1.05rem;">更新<sup>1</sup></a><a href="/tags/%E7%89%9B%E5%89%91%E8%90%A5/" style="font-size: 1.05rem;">牛剑营<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">September 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">11</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/08/"><span class="card-archive-list-date">August 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">8</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/07/"><span class="card-archive-list-date">July 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">1</span><span>篇</span></div></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/05/"><span class="card-archive-list-date">May 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">2</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">学习笔记</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/AS-CS/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>AS-CS</span></a></span></div></div><h1 class="post-title" itemprop="name headline">Database and Data Modelling (Znote)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-09-26T14:31:24.000Z" title="Created 2024-09-26 22:31:24">2024-09-26</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-09-26T14:57:50.135Z" title="Updated 2024-09-26 22:57:50">2024-09-26</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">Word count:</span><span class="word-count" title="文章字数">1.7k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">Reading time:</span><span>10min</span></span><span class="post-meta-separator"></span><span class="post-meta-pv-cv" id="" data-flag-title="Database and Data Modelling (Znote)"><i class="anzhiyufont anzhiyu-icon-fw-eye post-meta-icon"></i><span class="post-meta-label" title="阅读量">Post View:</span><span id="busuanzi_value_page_pv"><i class="anzhiyufont anzhiyu-icon-spinner anzhiyu-spin"></i></span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为上海"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>上海</span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section><div id="post-top-cover"><img class="nolazyload" id="post-top-bg" src="https://bu.dusays.com/2024/08/31/66d3272061f44.png"></div></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container" itemscope itemtype="http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/"><header><a class="post-meta-categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url">学习笔记</a><a href="/tags/AS-CS/" tabindex="-1" itemprop="url">AS-CS</a><h1 id="CrawlerTitle" itemprop="name headline">Database and Data Modelling (Znote)</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">Aaron</span><time itemprop="dateCreated datePublished" datetime="2024-09-26T14:31:24.000Z" title="Created 2024-09-26 22:31:24">2024-09-26</time><time itemprop="dateCreated datePublished" datetime="2024-09-26T14:57:50.135Z" title="Updated 2024-09-26 22:57:50">2024-09-26</time></header><h2 id="file-based-system"><strong>8.1. File Based System</strong></h2>
+<ul>
+<li><strong>Data</strong> stored in discrete files, stored on computer,
+and can be accessed, altered or removed by the user.</li>
+</ul>
+<h3 id="disadvantages-of-file-based-system"><strong>Disadvantages of
+File Based System</strong></h3>
+<ul>
+<li><strong>No enforcing control</strong> on organization/structure of
+files</li>
+<li><strong>Data repeated</strong> in different files; manually change
+each</li>
+<li><strong>Sorting</strong> must be done manually or must write a
+program</li>
+<li><strong>Data</strong> may be in different formats; difficult to find
+and use</li>
+<li><strong>Impossible for it to be multi-user; chaotic</strong></li>
+<li><strong>Security not sophisticated; users can access
+everything</strong></li>
+</ul>
+<hr />
+<h2 id="database-management-systems-dbms"><strong>8.2. Database
+Management Systems (DBMS)</strong></h2>
+<ul>
+<li><strong>Database</strong>: Collection of non-redundant interrelated
+data.</li>
+<li><strong>DBMS</strong>: Software programs that allow databases to be
+defined, constructed and manipulated.</li>
+</ul>
+<h3 id="features-of-a-dbms"><strong>Features of a DBMS</strong></h3>
+<ul>
+<li><strong>Data management</strong>: Data stored in relational
+databases - tables stored in secondary storage.</li>
+<li><strong>Data dictionary</strong> contains:
+<ul>
+<li><strong>List of all files</strong> in the database.</li>
+<li><strong>Number of records</strong> in each file.</li>
+<li><strong>Names &amp; types</strong> of each field.</li>
+</ul></li>
+<li><strong>Data modeling</strong>: Analysis of data objects used in
+database, identifying relationships among them.</li>
+<li><strong>Logical schema</strong>: Overall view of the entire
+database, includes entities, attributes, and relationships.</li>
+<li><strong>Data integrity</strong>: Entire block copied to user’s area
+when being changed, saved back when done.</li>
+<li><strong>Data security</strong>: Handles <strong>password
+allocation</strong> and verification, backups database automatically,
+controls what certain users view by <strong>access rights</strong> of
+individuals or groups of users.</li>
+</ul>
+<h3 id="data-change-clash-solutions"><strong>Data change clash
+solutions</strong></h3>
+<ul>
+<li><strong>Open entire database</strong> in exclusive mode –
+impractical with several users.</li>
+<li><strong>Lock all records</strong> in the table being modified – one
+user changing a table, others can only read the table.</li>
+<li><strong>Lock record currently being edited</strong> – as someone
+changes something, others can only read the record.</li>
+<li><strong>User specifies no locks</strong> – software warns the user
+of simultaneous change, resolve manually.</li>
+<li><strong>Deadlock</strong>: Two locks at the same time, DBMS must
+recognize, one user must abort task.</li>
+</ul>
+<h3 id="tools-in-a-dbms"><strong>Tools in a DBMS</strong></h3>
+<ul>
+<li><strong>Developer interface</strong>: Allows creating and
+manipulating database in SQL rather than graphically.</li>
+<li><strong>Query processor</strong>: Handles high-level queries. It
+parses, validates, optimizes, and compiles or interprets a query which
+results in the query plan.</li>
+</ul>
+<hr />
+<h2 id="relational-database-modelling"><strong>8.3. Relational Database
+Modelling</strong></h2>
+<ul>
+<li><strong>Entity</strong>: Object/event which can be distinctly
+identified.</li>
+<li><strong>Table</strong>: Contains a group of related entities in rows
+and columns called an entity set.</li>
+<li><strong>Tuple</strong>: A row or a record in a relational
+database.</li>
+<li><strong>Attribute</strong>: A field or column in a relational
+database.</li>
+<li><strong>Primary key</strong>: Attribute or combination of them that
+uniquely defines each tuple in relation.</li>
+<li><strong>Candidate key</strong>: Attribute that can potentially be a
+primary key.</li>
+<li><strong>Foreign key</strong>: Attribute or combination of them that
+relates 2 different tables.</li>
+<li><strong>Referential integrity</strong>: Prevents users or
+applications from entering inconsistent data.</li>
+<li><strong>Secondary key</strong>: Candidate keys not chosen as the
+primary key.</li>
+<li><strong>Indexing</strong>: Creating a secondary key on an attribute
+to provide fast access when searching on that attribute; indexing data
+must be updated when table data changes.</li>
+</ul>
+<hr />
+<h2 id="relational-design-of-a-system"><strong>8.4. Relational Design of
+a System</strong></h2>
+<h3 id="normalization"><strong>Normalization</strong></h3>
+<ul>
+<li><strong>1st Normal Form (1NF)</strong>: No repeating attribute or
+groups of attributes. Intersection of each tuple and attribute contains
+only one value.<br />
+<strong>Example</strong>:</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 21%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+<col style="width: 22%" />
+</colgroup>
+<thead>
+<tr>
+<th><strong>Num</strong></th>
+<th><strong>CustName</strong></th>
+<th><strong>City</strong></th>
+<th><strong>Country</strong></th>
+<th><strong>ProdID</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>005</td>
+<td>Bill Jones</td>
+<td>London</td>
+<td>England</td>
+<td>1</td>
+<td>Table</td>
+</tr>
+<tr>
+<td>005</td>
+<td>Bill Jones</td>
+<td>London</td>
+<td>England</td>
+<td>2</td>
+<td>Desk</td>
+</tr>
+<tr>
+<td>005</td>
+<td>Bill Jones</td>
+<td>London</td>
+<td>England</td>
+<td>3</td>
+<td>Chair</td>
+</tr>
+<tr>
+<td>008</td>
+<td>Mary Hill</td>
+<td>Paris</td>
+<td>France</td>
+<td>4</td>
+<td>Desk</td>
+</tr>
+<tr>
+<td>008</td>
+<td>Mary Hill</td>
+<td>Paris</td>
+<td>France</td>
+<td>7</td>
+<td>Cupboard</td>
+</tr>
+<tr>
+<td>014</td>
+<td>Anne Smith</td>
+<td>New York</td>
+<td>USA</td>
+<td>5</td>
+<td>Cabinet</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Tom Allen</td>
+<td>London</td>
+<td>England</td>
+<td>7</td>
+<td>Cupboard</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Tom Allen</td>
+<td>London</td>
+<td>England</td>
+<td>8</td>
+<td>Desk</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>2nd Normal Form (2NF)</strong>: It is in 1NF and every
+<strong>non-primary key attribute</strong> is fully dependent on the
+primary key; all incomplete dependencies have been removed.<br />
+<strong>Example</strong>:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th><strong>Num</strong></th>
+<th><strong>CustName</strong></th>
+<th><strong>City</strong></th>
+<th><strong>Country</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>005</td>
+<td>Bill Jones</td>
+<td>London</td>
+<td>England</td>
+</tr>
+<tr>
+<td>008</td>
+<td>Mary Hill</td>
+<td>Paris</td>
+<td>France</td>
+</tr>
+<tr>
+<td>014</td>
+<td>Anne Smith</td>
+<td>New York</td>
+<td>USA</td>
+</tr>
+<tr>
+<td>002</td>
+<td>Tom Allen</td>
+<td>London</td>
+<td>England</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>Num</strong></th>
+<th><strong>ProdID</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>005</td>
+<td>1</td>
+<td>Table</td>
+</tr>
+<tr>
+<td>005</td>
+<td>2</td>
+<td>Desk</td>
+</tr>
+<tr>
+<td>005</td>
+<td>3</td>
+<td>Chair</td>
+</tr>
+<tr>
+<td>008</td>
+<td>4</td>
+<td>Desk</td>
+</tr>
+<tr>
+<td>008</td>
+<td>7</td>
+<td>Cupboard</td>
+</tr>
+<tr>
+<td>014</td>
+<td>5</td>
+<td>Cabinet</td>
+</tr>
+<tr>
+<td>002</td>
+<td>7</td>
+<td>Cupboard</td>
+</tr>
+<tr>
+<td>002</td>
+<td>8</td>
+<td>Desk</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>3rd Normal Form (3NF)</strong>: It is in
+<strong>1NF</strong> and <strong>2NF</strong> and all <strong>non-key
+elements</strong> are fully dependent on the primary key. <strong>No
+inter-dependencies</strong> between attributes.
+<strong>MANY-TO-MANY</strong> functions cannot be directly normalized to
+3NF, must use a 2-step process.</li>
+</ul>
+<hr />
+<h2 id="data-definition-language-ddl"><strong>8.5. Data Definition
+Language (DDL)</strong></h2>
+<p>Creation/modification of the database structure using this language,
+written in <strong>SQL</strong>.</p>
+<h3 id="creating-a-database"><strong>Creating a database</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE <span class="operator">&lt;</span>database<span class="operator">-</span>name<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="creating-a-table"><strong>Creating a table</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span> (…);</span><br></pre></td></tr></table></figure>
+<h3 id="changing-a-table"><strong>Changing a table</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="adding-a-primary-key"><strong>Adding a primary key</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">PRIMARY</span> KEY (field);</span><br></pre></td></tr></table></figure>
+<h3 id="adding-a-foreign-key"><strong>Adding a foreign key</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FOREIGN</span> KEY (field) <span class="keyword">REFERENCES</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">&gt;</span>(field);</span><br></pre></td></tr></table></figure>
+<h3 id="example"><strong>Example</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE <span class="string">&#x27;Personnel.gdb&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> Training</span><br><span class="line">(</span><br><span class="line">    EmpID <span class="type">INT</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    CourseTitle <span class="type">VARCHAR</span>(<span class="number">30</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    CourseDate <span class="type">DATE</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">    <span class="keyword">PRIMARY</span> KEY (EmpID, CourseDate),</span><br><span class="line">    <span class="keyword">FOREIGN</span> KEY (EmpID) <span class="keyword">REFERENCES</span> Employee(EmpID)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="data-manipulation-language-dml"><strong>8.6. Data Manipulation
+Language (DML)</strong></h2>
+<p>Query and maintenance of data done using this language – written in
+<strong>SQL</strong>.</p>
+<h3 id="queries"><strong>Queries</strong></h3>
+<ul>
+<li><strong>Creating a query</strong>:</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">&lt;</span>field<span class="operator">-</span>name<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">FROM</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="operator">&lt;</span><span class="keyword">search</span><span class="operator">-</span><span class="keyword">condition</span><span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="sql-operators"><strong>SQL Operators</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>Operator</strong></th>
+<th><strong>Meaning</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>Equals to</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>Greater than</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>Less than</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>Less than or equal to</td>
+</tr>
+<tr>
+<td>&lt;&gt;</td>
+<td>Not equal to</td>
+</tr>
+<tr>
+<td>IS NULL</td>
+<td>Check for null values</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sorting-into-ascending-order"><strong>Sorting into ascending
+order</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> <span class="operator">&lt;</span>field<span class="operator">-</span>name<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="operator">&lt;</span>field<span class="operator">-</span>name<span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="joining-fields-of-different-tables"><strong>Joining fields of
+different tables</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="data-maintenance"><strong>Data Maintenance</strong></h3>
+<ul>
+<li><strong>Adding data to a table</strong>:</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span>(field1, field2, field3)</span><br><span class="line"><span class="keyword">VALUES</span> (value1, value2, value3);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Deleting a record</strong>:</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="operator">&lt;</span><span class="keyword">condition</span><span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Updating a field in a table</strong>:</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> <span class="operator">&lt;</span><span class="keyword">table</span><span class="operator">-</span>name<span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">SET</span> <span class="operator">&lt;</span>field<span class="operator">-</span>name<span class="operator">&gt;</span> <span class="operator">=</span> <span class="operator">&lt;</span><span class="keyword">value</span><span class="operator">&gt;</span></span><br><span class="line"><span class="keyword">WHERE</span> <span class="operator">&lt;</span><span class="keyword">condition</span><span class="operator">&gt;</span>;</span><br></pre></td></tr></table></figure>
+<hr />
+<h2 id="database-design-and-management"><strong>8.7. Database Design and
+Management</strong></h2>
+<h3 id="database-design-process"><strong>Database Design
+Process</strong></h3>
+<ol type="1">
+<li><strong>Requirement analysis</strong>: Identify what data needs to
+be stored and the relationships between that data.</li>
+<li><strong>Conceptual design</strong>: Create a high-level design,
+typically using Entity-Relationship (ER) diagrams to model the
+data.</li>
+<li><strong>Logical design</strong>: Transform the conceptual design
+into a database schema. This process involves selecting the relational
+model and applying normalization rules.</li>
+<li><strong>Physical design</strong>: Define the actual structure of the
+database, focusing on file organization and indexing to improve
+performance.</li>
+<li><strong>Implementation</strong>: Use <strong>Data Definition
+Language (DDL)</strong> commands to create the database and <strong>Data
+Manipulation Language (DML)</strong> commands to populate it.</li>
+<li><strong>Testing and evaluation</strong>: Ensure that the database
+meets the requirements and functions efficiently.</li>
+<li><strong>Maintenance</strong>: Regularly back up the database and
+update it to reflect changes in data requirements.</li>
+</ol>
+<hr />
+<h2 id="er-diagrams-entity-relationship-diagrams"><strong>8.8. ER
+Diagrams (Entity-Relationship Diagrams)</strong></h2>
+<ul>
+<li><strong>Entity</strong>: Represented by a rectangle, it is a person,
+place, thing, or event for which data is collected.</li>
+<li><strong>Attribute</strong>: Represented by an oval, it is a property
+or characteristic of an entity.</li>
+<li><strong>Relationship</strong>: Represented by a diamond, it shows
+how two entities are related.</li>
+</ul>
+<h3 id="example-of-er-diagram"><strong>Example of ER
+Diagram</strong></h3>
+<ul>
+<li><strong>Entities</strong>: Employee, Department</li>
+<li><strong>Relationships</strong>: Employee works in a Department</li>
+<li><strong>Attributes</strong>:
+<ul>
+<li>Employee: EmpID (Primary Key), Name, DateOfHire</li>
+<li>Department: DeptID (Primary Key), DepartmentName</li>
+</ul></li>
+</ul>
+<h3 id="converting-er-diagrams-to-tables"><strong>Converting ER Diagrams
+to Tables</strong></h3>
+<ol type="1">
+<li>Each entity becomes a table.</li>
+<li>Each attribute becomes a column in the corresponding table.</li>
+<li>Relationships are expressed through foreign keys.</li>
+</ol>
+<hr />
+<h2 id="transaction-management-and-concurrency-control"><strong>8.9.
+Transaction Management and Concurrency Control</strong></h2>
+<ul>
+<li><strong>Transaction</strong>: A unit of work performed within a
+database that is treated in a coherent and reliable way. A transaction
+must satisfy four properties (<strong>ACID</strong>):
+<ul>
+<li><strong>Atomicity</strong>: The entire transaction is completed, or
+none of it is.</li>
+<li><strong>Consistency</strong>: Transactions must leave the database
+in a consistent state.</li>
+<li><strong>Isolation</strong>: Transactions should not affect each
+other.</li>
+<li><strong>Durability</strong>: Once a transaction is committed, it
+will remain so even in the event of a system failure.</li>
+</ul></li>
+</ul>
+<h3 id="concurrency-control"><strong>Concurrency Control</strong></h3>
+<ul>
+<li>Ensures that multiple users can interact with the database without
+interfering with each other.</li>
+<li>Techniques include:
+<ul>
+<li><strong>Locking</strong>: Locks records or tables to prevent
+simultaneous access.</li>
+<li><strong>Optimistic concurrency</strong>: Assumes conflicts are rare
+and only checks for conflicts when committing.</li>
+<li><strong>Pessimistic concurrency</strong>: Locks data at the
+beginning of a transaction to prevent conflicts.</li>
+</ul></li>
+</ul>
+<h3 id="deadlock"><strong>Deadlock</strong></h3>
+<ul>
+<li>Occurs when two or more transactions are waiting for each other to
+release resources, creating a cycle of dependencies.</li>
+<li><strong>Deadlock prevention</strong>: Ensuring that transactions do
+not hold resources while waiting for other resources.</li>
+<li><strong>Deadlock detection</strong>: The system detects deadlocks
+and aborts one of the transactions to break the cycle.</li>
+</ul>
+<hr />
+<h2 id="backup-and-recovery"><strong>8.10. Backup and
+Recovery</strong></h2>
+<h3 id="backup"><strong>Backup</strong></h3>
+<ul>
+<li>Regularly creating copies of the database to ensure that data can be
+restored in the event of corruption or loss.</li>
+</ul>
+<h3 id="types-of-backups"><strong>Types of Backups</strong></h3>
+<ol type="1">
+<li><strong>Full backup</strong>: A complete copy of the entire
+database.</li>
+<li><strong>Incremental backup</strong>: Only the changes made since the
+last backup are saved.</li>
+<li><strong>Differential backup</strong>: Similar to an incremental
+backup but includes all changes since the last full backup.</li>
+</ol>
+<h3 id="recovery"><strong>Recovery</strong></h3>
+<ul>
+<li>The process of restoring data from a backup after a failure.</li>
+<li><strong>Point-in-time recovery</strong>: Allows restoring the
+database to a specific point in time before a failure occurred.</li>
+<li><strong>Transaction log</strong>: A record of all changes made to
+the database, which can be used to recover from crashes.</li>
+</ul>
+<hr />
+<h2 id="sql-performance-optimization"><strong>8.11. SQL Performance
+Optimization</strong></h2>
+<h3 id="common-techniques"><strong>Common Techniques</strong></h3>
+<ul>
+<li><strong>Indexing</strong>: Create indexes on frequently searched
+fields to improve query performance.</li>
+<li><strong>Query optimization</strong>: Ensure that queries are written
+efficiently (e.g., using WHERE clauses to filter data).</li>
+<li><strong>Partitioning</strong>: Divide large tables into smaller,
+more manageable pieces to improve performance.</li>
+<li><strong>Denormalization</strong>: In some cases, denormalizing data
+(combining tables) can improve performance, though at the cost of data
+redundancy.</li>
+</ul>
+<h3 id="query-optimization-example"><strong>Query Optimization
+Example</strong></h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> EmployeeName, DepartmentName</span><br><span class="line"><span class="keyword">FROM</span> Employee</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Department <span class="keyword">ON</span> Employee.DeptID <span class="operator">=</span> Department.DeptID</span><br><span class="line"><span class="keyword">WHERE</span> Employee.Salary <span class="operator">&gt;</span> <span class="number">50000</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>The query can be optimized by ensuring the <code>DeptID</code>
+column is indexed.</li>
+</ul>
+<hr />
+<h2 id="database-security"><strong>8.12. Database Security</strong></h2>
+<h3 id="key-aspects"><strong>Key Aspects</strong></h3>
+<ul>
+<li><strong>Authentication</strong>: Ensuring that only authorized users
+can access the database.</li>
+<li><strong>Authorization</strong>: Defining what actions users can
+perform on the data (e.g., read, write, delete).</li>
+<li><strong>Encryption</strong>: Protecting sensitive data by encoding
+it.</li>
+<li><strong>Auditing</strong>: Keeping a log of database access and
+modifications for security and compliance purposes.</li>
+</ul>
+<hr />
+<h2 id="big-data-and-nosql-databases"><strong>8.13. Big Data and NoSQL
+Databases</strong></h2>
+<ul>
+<li><strong>Big Data</strong>: Refers to large and complex datasets that
+traditional databases cannot handle efficiently.</li>
+<li><strong>NoSQL</strong>: A class of database systems that do not
+follow the relational model and are designed to handle unstructured
+data.
+<ul>
+<li><strong>Key-value stores</strong>: Store data as key-value
+pairs.</li>
+<li><strong>Document databases</strong>: Store data as documents (e.g.,
+JSON, XML).</li>
+<li><strong>Graph databases</strong>: Store data as nodes and
+relationships, suitable for applications like social networks.</li>
+<li><strong>Column-family stores</strong>: Organize data into columns,
+rather than rows, allowing for faster access to certain types of
+data.</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="conclusion"><strong>8.14. Conclusion</strong></h2>
+<p>Databases are essential for managing large amounts of data
+efficiently and securely. The relational model remains widely used, but
+emerging technologies like <strong>MySQL</strong> offer new ways to
+handle the growing demands of <strong>big data</strong>. Effective
+database management involves understanding design principles,
+maintaining data integrity, ensuring security, and optimizing
+performance.</p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2024/08/11/66b86f5363b26.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2024/08/11/66b86f5363b26.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">Aaron</div><div class="post-copyright__author_desc"></div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/')">Database and Data Modelling (Znote)</span></a></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div class="rewardLeftButton"></div><div class="shareRight"><div class="share-link mobile"><div class="share-qrcode"><div class="share-button" title="使用手机访问这篇文章"><i class="anzhiyufont anzhiyu-icon-qrcode"></i></div><div class="share-main"><div class="share-main-all"><div id="qrcode" title="http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/"></div><div class="reward-dec">使用手机访问这篇文章</div></div></div></div></div><div class="share-link weibo"><a class="share-button" target="_blank" href="https://service.weibo.com/share/share.php?title=Database and Data Modelling (Znote)&amp;url=http://carpediem4116.github.io/2024/09/26/Computer%20Science/AS/znotes/Ch8/&amp;pic=https://bu.dusays.com/2024/08/31/66d3272061f44.png" rel="external nofollow noreferrer noopener"><i class="anzhiyufont anzhiyu-icon-weibo"></i></a></div><script>function copyCurrentPageUrl() {
+  var currentPageUrl = window.location.href;
+  var input = document.createElement("input");
+  input.setAttribute("value", currentPageUrl);
+  document.body.appendChild(input);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(input);
+}</script><div class="share-link copyurl"><div class="share-button" id="post-share-url" title="复制链接" onclick="copyCurrentPageUrl()"><i class="anzhiyufont anzhiyu-icon-link"></i></div></div></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/AS-CS/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>AS-CS<span class="tagsPageCount">6</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=bae792bf-e995-9c78-6371-3b045df94210" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/09/26/Computer%20Science/AS/znotes/Ch2/"><img class="prev-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=c970f57a-d94f-d374-8cd6-64cd1e768b2c" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Communication Networks, including the Internet(Znote)</div></div></a></div><div class="next-post pull-right"><a href="/2024/09/27/Computer%20Science/A2(znotes)/P4%20Summary/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg3.png?_r_=db313994-6da5-b288-0cf6-cb782044eafc" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CAIE A2 Level Computer Science Practical Notes</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2024/09/02/Computer%20Science/AS/Ch2/" title="Ch2 Communication"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=3ad1e726-e015-84a7-7be0-8a18bdff1e98" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-02</div><div class="title">Ch2 Communication</div></div></a></div><div><a href="/2024/09/04/Computer%20Science/AS/Ch3/" title="Ch3 HardWare"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=65fbcb81-4214-db1e-8f21-ebcdb677eaed" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-04</div><div class="title">Ch3 HardWare</div></div></a></div><div><a href="/2024/09/05/Computer%20Science/AS/Ch4/" title="Ch4 Processor Funcdamentals part1 CPU"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=48b9e3b4-a301-4b4c-1dfd-ad47a76a9d45" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-05</div><div class="title">Ch4 Processor Funcdamentals part1 CPU</div></div></a></div><div><a href="/2024/09/23/Computer%20Science/AS/znotes/paper1/" title="CIE AS Level Computer Science Notes (2024-2025 Syllabus)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=0ad3d7c3-9350-247b-3f33-5037c97569a5" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-23</div><div class="title">CIE AS Level Computer Science Notes (2024-2025 Syllabus)</div></div></a></div><div><a href="/2024/09/26/Computer%20Science/AS/znotes/Ch2/" title="Communication Networks, including the Internet(Znote)"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=c970f57a-d94f-d374-8cd6-64cd1e768b2c" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-26</div><div class="title">Communication Networks, including the Internet(Znote)</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info-avatar"><img class="avatar-img" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://bu.dusays.com/2024/08/11/66b86f5363b26.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__description"></div></div></div><div class="card-widget anzhiyu-right-widget" id="card-wechat" onclick="null"><div id="flip-wrapper"><div id="flip-content"><div class="face" style="background: url(https://bu.dusays.com/2023/01/13/63c02edf44033.png) center center / 100% no-repeat"></div><div class="back face" style="background: url(https://bu.dusays.com/2023/05/13/645fa415e8694.png) center center / 100% no-repeat"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#file-based-system"><span class="toc-number">1.</span> <span class="toc-text">8.1. File Based System</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#disadvantages-of-file-based-system"><span class="toc-number">1.1.</span> <span class="toc-text">Disadvantages of
+File Based System</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#database-management-systems-dbms"><span class="toc-number">2.</span> <span class="toc-text">8.2. Database
+Management Systems (DBMS)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#features-of-a-dbms"><span class="toc-number">2.1.</span> <span class="toc-text">Features of a DBMS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-change-clash-solutions"><span class="toc-number">2.2.</span> <span class="toc-text">Data change clash
+solutions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tools-in-a-dbms"><span class="toc-number">2.3.</span> <span class="toc-text">Tools in a DBMS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#relational-database-modelling"><span class="toc-number">3.</span> <span class="toc-text">8.3. Relational Database
+Modelling</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#relational-design-of-a-system"><span class="toc-number">4.</span> <span class="toc-text">8.4. Relational Design of
+a System</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#normalization"><span class="toc-number">4.1.</span> <span class="toc-text">Normalization</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-definition-language-ddl"><span class="toc-number">5.</span> <span class="toc-text">8.5. Data Definition
+Language (DDL)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#creating-a-database"><span class="toc-number">5.1.</span> <span class="toc-text">Creating a database</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#creating-a-table"><span class="toc-number">5.2.</span> <span class="toc-text">Creating a table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#changing-a-table"><span class="toc-number">5.3.</span> <span class="toc-text">Changing a table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adding-a-primary-key"><span class="toc-number">5.4.</span> <span class="toc-text">Adding a primary key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#adding-a-foreign-key"><span class="toc-number">5.5.</span> <span class="toc-text">Adding a foreign key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#example"><span class="toc-number">5.6.</span> <span class="toc-text">Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#data-manipulation-language-dml"><span class="toc-number">6.</span> <span class="toc-text">8.6. Data Manipulation
+Language (DML)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#queries"><span class="toc-number">6.1.</span> <span class="toc-text">Queries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sql-operators"><span class="toc-number">6.2.</span> <span class="toc-text">SQL Operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sorting-into-ascending-order"><span class="toc-number">6.3.</span> <span class="toc-text">Sorting into ascending
+order</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#joining-fields-of-different-tables"><span class="toc-number">6.4.</span> <span class="toc-text">Joining fields of
+different tables</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-maintenance"><span class="toc-number">6.5.</span> <span class="toc-text">Data Maintenance</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#database-design-and-management"><span class="toc-number">7.</span> <span class="toc-text">8.7. Database Design and
+Management</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#database-design-process"><span class="toc-number">7.1.</span> <span class="toc-text">Database Design
+Process</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#er-diagrams-entity-relationship-diagrams"><span class="toc-number">8.</span> <span class="toc-text">8.8. ER
+Diagrams (Entity-Relationship Diagrams)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#example-of-er-diagram"><span class="toc-number">8.1.</span> <span class="toc-text">Example of ER
+Diagram</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#converting-er-diagrams-to-tables"><span class="toc-number">8.2.</span> <span class="toc-text">Converting ER Diagrams
+to Tables</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#transaction-management-and-concurrency-control"><span class="toc-number">9.</span> <span class="toc-text">8.9.
+Transaction Management and Concurrency Control</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#concurrency-control"><span class="toc-number">9.1.</span> <span class="toc-text">Concurrency Control</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#deadlock"><span class="toc-number">9.2.</span> <span class="toc-text">Deadlock</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#backup-and-recovery"><span class="toc-number">10.</span> <span class="toc-text">8.10. Backup and
+Recovery</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#backup"><span class="toc-number">10.1.</span> <span class="toc-text">Backup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#types-of-backups"><span class="toc-number">10.2.</span> <span class="toc-text">Types of Backups</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#recovery"><span class="toc-number">10.3.</span> <span class="toc-text">Recovery</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql-performance-optimization"><span class="toc-number">11.</span> <span class="toc-text">8.11. SQL Performance
+Optimization</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#common-techniques"><span class="toc-number">11.1.</span> <span class="toc-text">Common Techniques</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#query-optimization-example"><span class="toc-number">11.2.</span> <span class="toc-text">Query Optimization
+Example</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#database-security"><span class="toc-number">12.</span> <span class="toc-text">8.12. Database Security</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#key-aspects"><span class="toc-number">12.1.</span> <span class="toc-text">Key Aspects</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#big-data-and-nosql-databases"><span class="toc-number">13.</span> <span class="toc-text">8.13. Big Data and NoSQL
+Databases</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#conclusion"><span class="toc-number">14.</span> <span class="toc-text">8.14. Conclusion</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/09/27/Computer%20Science/A2(znotes)/P3%20Summary/" title="CAIE A2 Level Computer Science Theory Notes"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg2.png?_r_=bae792bf-e995-9c78-6371-3b045df94210" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CAIE A2 Level Computer Science Theory Notes"/></a><div class="content"><a class="title" href="/2024/09/27/Computer%20Science/A2(znotes)/P3%20Summary/" title="CAIE A2 Level Computer Science Theory Notes">CAIE A2 Level Computer Science Theory Notes</a><time datetime="2024-09-27T05:30:24.000Z" title="Created 2024-09-27 13:30:24">2024-09-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/27/Computer%20Science/A2(znotes)/P4%20Summary/" title="CAIE A2 Level Computer Science Practical Notes"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg3.png?_r_=db313994-6da5-b288-0cf6-cb782044eafc" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CAIE A2 Level Computer Science Practical Notes"/></a><div class="content"><a class="title" href="/2024/09/27/Computer%20Science/A2(znotes)/P4%20Summary/" title="CAIE A2 Level Computer Science Practical Notes">CAIE A2 Level Computer Science Practical Notes</a><time datetime="2024-09-27T05:30:24.000Z" title="Created 2024-09-27 13:30:24">2024-09-27</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/26/Computer%20Science/AS/znotes/Ch8/" title="Database and Data Modelling (Znote)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=4852c468-d774-4eb7-12bc-02df4c6de96d" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Database and Data Modelling (Znote)"/></a><div class="content"><a class="title" href="/2024/09/26/Computer%20Science/AS/znotes/Ch8/" title="Database and Data Modelling (Znote)">Database and Data Modelling (Znote)</a><time datetime="2024-09-26T14:31:24.000Z" title="Created 2024-09-26 22:31:24">2024-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/26/Computer%20Science/AS/znotes/Ch2/" title="Communication Networks, including the Internet(Znote)"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=c970f57a-d94f-d374-8cd6-64cd1e768b2c" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Communication Networks, including the Internet(Znote)"/></a><div class="content"><a class="title" href="/2024/09/26/Computer%20Science/AS/znotes/Ch2/" title="Communication Networks, including the Internet(Znote)">Communication Networks, including the Internet(Znote)</a><time datetime="2024-09-26T14:31:24.000Z" title="Created 2024-09-26 22:31:24">2024-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/23/vscode/" title="VsCode windows 快捷键"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://file.crazywong.com/gh/jerryc127/CDN@latest/cover/default_bg.png?_r_=bf2c4b65-a357-a11d-9025-d86f45b610ee" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="VsCode windows 快捷键"/></a><div class="content"><a class="title" href="/2024/09/23/vscode/" title="VsCode windows 快捷键">VsCode windows 快捷键</a><time datetime="2024-09-23T14:16:00.000Z" title="Created 2024-09-23 22:16:00">2024-09-23</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div id="footer-bar-tips"><div class="copyright">&copy;2024 By <a class="footer-bar-link" href="/" title="Aaron" target="_blank">Aaron</a></div></div><div id="footer-type-tips"></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/anzhiyu-c/hexo-theme-anzhiyu" title="主题">主题</a></div></div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">Articles</div><div class="length-num">22</div></a><a href="/tags/" title="tag"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/categories/" title="category"><div class="headline">Categories</div><div class="length-num">2</div></a></div><span class="sidebar-menu-item-title">Function</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="Display Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>Display Mode</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://blog.anheyu.com/" title="博客"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="/img/favicon.ico" alt="博客"/><span class="back-menu-item-text">博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">项目</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://image.anheyu.com/" title="安知鱼图床"><img class="back-menu-item-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null,this.src=&quot;/img/404.jpg&quot;" data-lazy-src="https://image.anheyu.com/favicon.ico" alt="安知鱼图床"/><span class="back-menu-item-text">安知鱼图床</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 友链</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/link/"><i class="anzhiyufont anzhiyu-icon-link faa-tada" style="font-size: 0.9em;"></i><span> 友人帐</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/fcircle/"><i class="anzhiyufont anzhiyu-icon-artstation faa-tada" style="font-size: 0.9em;"></i><span> 朋友圈</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/comments/"><i class="anzhiyufont anzhiyu-icon-envelope faa-tada" style="font-size: 0.9em;"></i><span> 留言板</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/bangumis/"><i class="anzhiyufont anzhiyu-icon-bilibili faa-tada" style="font-size: 0.9em;"></i><span> 追番页</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/air-conditioner/"><i class="anzhiyufont anzhiyu-icon-fan faa-tada" style="font-size: 0.9em;"></i><span> 小空调</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/essay/"><i class="anzhiyufont anzhiyu-icon-lightbulb faa-tada" style="font-size: 0.9em;"></i><span> 闲言碎语</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/A2-CS/" style="font-size: 0.88rem;">A2-CS<sup>4</sup></a><a href="/tags/AS-CS/" style="font-size: 0.88rem;">AS-CS<sup>6</sup></a><a href="/tags/Markdown/" style="font-size: 0.88rem;">Markdown<sup>2</sup></a><a href="/tags/Math/" style="font-size: 0.88rem;">Math<sup>4</sup></a><a href="/tags/Physcis/" style="font-size: 0.88rem;">Physcis<sup>1</sup></a><a href="/tags/Physics/" style="font-size: 0.88rem;">Physics<sup>3</sup></a><a href="/tags/vscode/" style="font-size: 0.88rem;">vscode<sup>1</sup></a><a href="/tags/%E6%9B%B4%E6%96%B0/" style="font-size: 0.88rem;">更新<sup>1</sup></a><a href="/tags/%E7%89%9B%E5%89%91%E8%90%A5/" style="font-size: 0.88rem;">牛剑营<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="Switch Between Traditional Chinese And Simplified Chinese">繁</button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://music.163.com/#/playlist?id=8297952071&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/vanilla-lazyload@17.8.5/dist/lazyload.iife.min.js"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script>// 消除控制台打印
+var HoldLog = console.log;
+console.log = function () {};
+let now1 = new Date();
+queueMicrotask(() => {
+  const Log = function () {
+    HoldLog.apply(console, arguments);
+  }; //在恢复前输出日志
+  const grt = new Date("01/08/2024 00:00:00"); //此处修改你的建站时间或者网站上线时间
+  now1.setTime(now1.getTime() + 250);
+  const days = (now1 - grt) / 1000 / 60 / 60 / 24;
+  const dnum = Math.floor(days);
+  const ascll = [
+    `欢迎使用安知鱼!`,
+    `生活明朗, 万物可爱`,
+    `
+        
+       █████╗ ███╗   ██╗███████╗██╗  ██╗██╗██╗   ██╗██╗   ██╗
+      ██╔══██╗████╗  ██║╚══███╔╝██║  ██║██║╚██╗ ██╔╝██║   ██║
+      ███████║██╔██╗ ██║  ███╔╝ ███████║██║ ╚████╔╝ ██║   ██║
+      ██╔══██║██║╚██╗██║ ███╔╝  ██╔══██║██║  ╚██╔╝  ██║   ██║
+      ██║  ██║██║ ╚████║███████╗██║  ██║██║   ██║   ╚██████╔╝
+      ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝    ╚═════╝
+        
+        `,
+    "已上线",
+    dnum,
+    "天",
+    "©2024 By 安知鱼 V1.6.12",
+  ];
+  const ascll2 = [`NCC2-036`, `调用前置摄像头拍照成功，识别为【小笨蛋】.`, `Photo captured: `, `🤪`];
+
+  setTimeout(
+    Log.bind(
+      console,
+      `\n%c${ascll[0]} %c ${ascll[1]} %c ${ascll[2]} %c${ascll[3]}%c ${ascll[4]}%c ${ascll[5]}\n\n%c ${ascll[6]}\n`,
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      "color:#425AEF",
+      "",
+      "color:#425AEF",
+      ""
+    )
+  );
+  setTimeout(
+    Log.bind(
+      console,
+      `%c ${ascll2[0]} %c ${ascll2[1]} %c \n${ascll2[2]} %c\n${ascll2[3]}\n`,
+      "color:white; background-color:#4fd953",
+      "",
+      "",
+      'background:url("https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/tinggge.gif") no-repeat;font-size:450%'
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c WELCOME %c 你好，小笨蛋.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(
+      console,
+      "%c ⚡ Powered by 安知鱼 %c 你正在访问 Aaron 的博客.",
+      "color:white; background-color:#f0ad4e",
+      ""
+    )
+  );
+
+  setTimeout(Log.bind(console, "%c W23-12 %c 你已打开控制台.", "color:white; background-color:#4f90d9", ""));
+
+  setTimeout(
+    console.warn.bind(console, "%c S013-782 %c 你现在正处于监控中.", "color:white; background-color:#d9534f", "")
+  );
+});</script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.cbd.int/mathjax@3.2.2/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><input type="hidden" name="page-type" id="page-type" value="post"></div><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
