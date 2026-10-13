@@ -98,7 +98,4 @@ nav{font-size:14px;gap:26px}nav a{min-height:44px;display:inline-flex;align-item
   .carousel-controls{gap:16px}.social-link>span{font-size:11px}.social-link{min-width:50px}.social-links{gap:18px}
   .site-footer p{font-size:11px}.site-footer>a:last-child{font-size:10px}.project-copy h3{font-size:36px}
 }
-@media(prefers-reduced-motion:no-preference){
-  .hero-copy{animation:editorial-enter .7s both}.real-model-panel{animation:editorial-enter .9s .1s both}
-  @keyframes editorial-enter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-}
+.hero h1 [data-i18n]{display:inline-block;max-width:100%}

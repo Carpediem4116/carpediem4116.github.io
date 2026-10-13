@@ -29,7 +29,8 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 ## 品质迭代
 
-- 排版与阅读层级参考 Design Prompts 的 Swiss Minimalist；主视觉与交互入口参考 MotionSites 的 Design World 案例；背景流动与轻微指针响应参考 React Bits 的 Liquid Ether 概念。保留现有纸色、墨绿与陶红配色，动效为原创实现，无新增运行依赖。
+- 排版与阅读层级参考 Design Prompts 的 Swiss Minimalist；主视觉与交互入口参考 MotionSites 的 Design World 案例；背景流动与轻微指针响应参考 React Bits 的 Liquid Ether 概念。保留现有纸色、墨绿与陶红配色，流动背景为原创实现。
+- 首屏入场、正文标题和构建笔记展开使用官方 GSAP 3.15.0 核心库，文件位于 `vendor/`，版权与许可来源见该目录说明。`motion.js` 通过 `gsap.matchMedia` 响应系统减少动态效果设置，保留原生滚动、模型构图和五秒轮播。
 - 首页增加联系入口、固定导航和手机双行导航；构建笔记说明 CAD 到 URDF 的坐标系问题与当前验证边界。
 - 模型加载时显示同一个 ZERO ARM 的封面，收到同源查看器就绪通知后切换到真实三维画面。模型离开可见区域时停止渲染。
 - Canonical、Open Graph 与分享封面已加入；标题与描述随语言切换。
