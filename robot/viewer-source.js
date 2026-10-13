@@ -13,7 +13,9 @@ const words = {
   }
 };
 const $ = id => document.getElementById(id);
-document.body.classList.toggle('embedded',new URLSearchParams(location.search).get('embed') === '1');
+const isEmbedded = new URLSearchParams(location.search).get('embed') === '1';
+document.body.classList.toggle('embedded',isEmbedded);
+if (isEmbedded) $('link-colors').checked = true;
 let language = 'en';
 try { language = localStorage.getItem('aaron-portfolio-language') === 'zh' ? 'zh' : 'en'; } catch {}
 const t = key => words[language][key];
@@ -160,7 +162,7 @@ function fitView(kind = $('camera-view').value) {
   modelBounds.getSize(modelSize);
   const radius = Math.max(modelSize.length() / 2,0.01);
   const halfFov = Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * Math.min(camera.aspect,1));
-  const distance = radius / Math.sin(halfFov) * 1.12;
+  const distance = radius / Math.sin(halfFov) * (isEmbedded ? 0.94 : 1.12);
   if (kind === 'front') cameraDirection.set(0,-1,0.03).normalize();
   else if (kind === 'side') cameraDirection.set(1,0,0.03).normalize();
   else if (kind === 'top') cameraDirection.set(0,-0.0001,1).normalize();
