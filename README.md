@@ -19,6 +19,14 @@
 
 CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
+## 项目轮播、背景与联系入口
+
+- 轮播只包含机械臂和 Coming soon 两张卡片；CAD、STM32 与 URDF 都属于同一个机械臂项目，详情可在轮播下方展开。
+- 每 5.5 秒自动切换，首尾循环；支持前后按钮、圆点、方向键和触屏滑动。鼠标悬停、键盘焦点、页面不可见时暂停，也可手动暂停。
+- `effects.js` 绘制原创 WebGL 流动光影，浅色页面背景与深色底部联系区各一层；无视频、远程素材或额外运行依赖。不可见区域不绘制；系统减少动态效果时默认暂停，可手动播放或暂停。不支持 WebGL 时使用静态配色。
+- 底部提供邮箱、WhatsApp、GitHub 和用户确认的 LinkedIn 链接，不包括 YouTube 或 Discord。悬停或键盘聚焦显示对应联系提示。
+- `assets/zero-arm-preview.png` 为网站自身 ZERO ARM 模型画布的截图，不含其他机器人模型。
+
 ## 模型完整性
 
 `robot/assets/zero-arm.zip` 是用户提供 ZIP 的逐字节副本，URDF 和 STL 未被修改。SHA-256：
@@ -31,7 +39,7 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 在网站根目录运行 `python -m http.server 4173 --bind 127.0.0.1`，访问 `http://127.0.0.1:4173/`。三维查看器需要支持 WebGL 的浏览器和 HTTP 服务。
 
-首页源码：`index.html`、`styles.css`、`app.js`。查看器源码：`robot/index.html`、`robot/viewer.css`、`robot/viewer-source.js`、`robot/archive.js`。
+首页源码：`index.html`、`styles.css`、`app.js`、`effects.js`。查看器源码：`robot/index.html`、`robot/viewer.css`、`robot/viewer-source.js`、`robot/archive.js`。
 
 修改查看器 JavaScript 后运行 `npm ci`、`npm run build`，提交源码与生成的 `robot/viewer.js`、`robot/viewer.js.LEGAL.txt`。Pages 直接发布仓库根目录，无需在云端构建。修改 CSS / JS 后更新 HTML 中的版本查询参数，避免使用旧缓存。
 
@@ -43,6 +51,6 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 - 独立 Python URDF 正运动学与浏览器读数对照：零姿态、6 个单轴 +10.8° 姿态和组合姿态 `[23, -15, 35, 15, -25, 90]°` 均一致；取两位小数后的显示误差小于 0.01 mm。
 - ZIP 目录/大小、相对路径、外部资源拒绝、缺失/歧义资源与无效归档检查通过。
 - 数值框即时更新、键盘调节滑块、姿态复位、首页三维嵌入与双语同步已检查；被移除的下载/导出等控件在页面 DOM 中数量为零。
-- 输入事件检查：右键默认事件被取消，OrbitControls 的指针处理仍会运行；左键输入不被拦截，释放指针或窗口失焦后清除右键状态。内置浏览器的系统级右键手势需以实际鼠标拖动复核。
+- 输入事件检查：右键默认事件被取消，OrbitControls 的指针处理仍会运行；左键输入不被拦截，释放指针或窗口失焦后清除右键状态。用户确认 Codex 内置浏览器正常、Edge 会触发原生鼠标手势；需在 Edge 手势设置中为本站添加排除，或使用 Shift＋左键平移。
 
 以上验证浏览器内的模型与运动学计算，不代表硬件精度或安全限位。
