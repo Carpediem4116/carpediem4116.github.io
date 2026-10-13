@@ -19,7 +19,7 @@ if (carousel) {
   track.prepend(clone(originals.at(-1)));
   track.append(clone(originals[0]));
   const slides = [...track.children];
-  let position = 1, paused = reducedMotion.matches, hovered = false, focused = false;
+  let position = 1, paused = reducedMotion.matches, focused = false;
   let visible = false, moving = false, timer = null, settleTimer = null;
   const pauseButton = document.getElementById('project-autoplay');
   const dots = [...carousel.querySelectorAll('[data-slide-to]')];
@@ -42,37 +42,43 @@ if (carousel) {
     dots.forEach((dot,index) => dot.setAttribute('aria-current',String(index === logicalIndex())));
   };
   const schedule = () => {
-    clearTimeout(timer);
-    if (!visible || paused || hovered || focused || document.hidden) return;
-    timer = setTimeout(() => move(1),5500);
+    clearInterval(timer);
+    if (!visible || paused || focused || document.hidden) return;
+    // Count from the start of each switch, independently of its animation.
+    timer = setInterval(() => move(1),5000);
   };
   const settle = () => {
     clearTimeout(settleTimer);
     if (position === 0) { position = originals.length; paint(false); }
     else if (position === slides.length - 1) { position = 1; paint(false); }
     moving = false;
-    schedule();
+    // Commit the non-animated wrap before accepting another navigation input.
+    void track.offsetWidth;
   };
   const go = (target,announce = false) => {
-    if (moving) return;
+    if (moving) settle();
+    if (target === position) { if (announce) schedule(); return; }
     position = target;
     moving = true;
-    clearTimeout(timer);
     paint();
     document.getElementById('project-announcement').textContent = announce ? `${logicalIndex() + 1} / ${originals.length}: ${originals[logicalIndex()].querySelector('h3').textContent}` : '';
     // A fallback covers transitions interrupted by resizing or tab visibility.
-    settleTimer = setTimeout(settle,reducedMotion.matches ? 0 : 700);
+    settleTimer = setTimeout(settle,reducedMotion.matches ? 0 : 550);
+    if (announce) schedule();
   };
-  const move = (direction,announce = false) => go(position + direction,announce);
-  track.addEventListener('transitionend',event => { if (event.target === track && event.propertyName === 'transform') settle(); });
+  const move = (direction,announce = false) => {
+    if (moving) settle();
+    go(position + direction,announce);
+  };
+  track.addEventListener('transitionend',event => { if (moving && event.target === track && event.propertyName === 'transform') settle(); });
   document.getElementById('project-prev').addEventListener('click',() => move(-1,true));
   document.getElementById('project-next').addEventListener('click',() => move(1,true));
   dots.forEach((dot,index) => dot.addEventListener('click',() => go(index + 1,true)));
   pauseButton.addEventListener('click',() => { paused = !paused; labels(); schedule(); });
-  carousel.addEventListener('pointerenter',event => { if (event.pointerType !== 'touch') { hovered = true; schedule(); } });
-  carousel.addEventListener('pointerleave',() => { hovered = false; schedule(); });
-  carousel.addEventListener('focusin',() => { focused = true; schedule(); });
-  carousel.addEventListener('focusout',event => { if (!carousel.contains(event.relatedTarget)) { focused = false; schedule(); } });
+  // Keep timed playback running after arrow/dot clicks. Pause only while a
+  // reader is focused inside the card itself, or uses the explicit pause button.
+  viewport.addEventListener('focusin',() => { focused = true; schedule(); });
+  viewport.addEventListener('focusout',event => { if (!viewport.contains(event.relatedTarget)) { focused = false; schedule(); } });
   carousel.addEventListener('keydown',event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1,true); }
   });
@@ -93,7 +99,7 @@ if (carousel) {
     suppressSwipeClick = false; event.preventDefault(); event.stopPropagation();
   },{capture:true});
   viewport.addEventListener('pointercancel',() => { touchStart = null; });
-  new ResizeObserver(() => paint(false)).observe(viewport);
+  new ResizeObserver(() => { if (moving) settle(); paint(false); }).observe(viewport);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; schedule(); },{threshold:0.25}).observe(viewport);
   document.addEventListener('visibilitychange',() => { if (document.hidden) settle(); schedule(); });
   reducedMotion.addEventListener('change',() => { paused = reducedMotion.matches; labels(); paint(false); schedule(); });
