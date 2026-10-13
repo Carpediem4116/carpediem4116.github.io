@@ -3,13 +3,14 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import URDFLoader from 'urdf-loader';
 import { unpackZip, findArchiveFile } from './archive.js';
+import { protectViewerInput } from './viewer-input.js';
 
 const words = {
   en: {
-    skip:'Skip to joint controls',back:'Portfolio',eyebrow:'FROM FILE TO MOTION',title:'A closer look at the mechanics.',intro:'Rotate the model. Explore each joint. See how it all connects.',viewportLabel:'3D model viewer',fit:'Fit view',cameraLabel:'Camera view',iso:'Perspective',front:'Front',side:'Side',top:'Top',fullscreen:'Toggle fullscreen',canvasLabel:'Interactive 3D robot. Drag to rotate, right-drag to pan, and scroll to zoom.',retry:'Load ZERO ARM',gesture:'Drag to orbit · Right-drag to pan · Scroll to zoom',grid:'Grid',frames:'Joint frames',wireframe:'Wireframe',colors:'Link colors',saveImage:'Save image ↗',position:'Link frame position',measuredFrame:'Measured link frame',controlsEyebrow:'KINEMATIC CONTROLS',joints:'Joint explorer',waiting:'Joint controls appear when the model is ready.',reset:'Reset pose',exportPose:'Export pose',structure:'Model structure',modelNote:'URDF kinematics, without physics or collision checking. ZERO ARM joint limits are model placeholders, not calibrated hardware limits.',privacy:'An interactive view of my ZERO ARM model.',download:'Download ZERO ARM ZIP ↓',support:'6 AXES / 7 LINKS / URDF + STL',loading:'Loading robot…',fetching:'Downloading model',unpacking:'Unpacking ZIP…',building:'Building the robot…',failed:'The model could not be loaded.',links:'links',jointCount:'movable joints',degrees:'degrees',millimetres:'millimetres',noJoints:'This model has no supported movable joints.',unsupported:'Floating and planar joints are shown at their zero pose.',resetDone:'All joints reset.',imageDone:'Image saved.',poseDone:'Pose exported.',exportFailed:'The image could not be exported.',fullscreenFailed:'Fullscreen is unavailable in this browser.',pageTitle:'Robot Lab — Aaron',loadKept:'Your previous model is still available. Close this notice to continue.',dismiss:'Dismiss',
+    skip:'Skip to joint controls',back:'Portfolio',eyebrow:'FROM FILE TO MOTION',title:'A closer look at the mechanics.',intro:'Rotate the model. Explore each joint. See how it all connects.',viewportLabel:'3D model viewer',fit:'Fit view',cameraLabel:'Camera view',iso:'Perspective',front:'Front',side:'Side',top:'Top',fullscreen:'Toggle fullscreen',canvasLabel:'Interactive 3D robot. Drag to rotate, right-drag or Shift-left-drag to pan, and scroll to zoom.',retry:'Load ZERO ARM',gesture:'Drag to orbit · Right-drag / Shift-drag to pan · Scroll to zoom',grid:'Grid',frames:'Joint frames',colors:'Link colors',controlsEyebrow:'KINEMATIC CONTROLS',joints:'Joint explorer',waiting:'Joint controls appear when the model is ready.',reset:'Reset pose',modelNote:'URDF kinematics, without physics or collision checking. ZERO ARM joint limits are model placeholders, not calibrated hardware limits.',loading:'Loading robot…',fetching:'Loading model',unpacking:'Unpacking ZIP…',building:'Building the robot…',failed:'The model could not be loaded.',links:'links',jointCount:'movable joints',degrees:'degrees',millimetres:'millimetres',noJoints:'This model has no supported movable joints.',unsupported:'Floating and planar joints are shown at their zero pose.',resetDone:'All joints reset.',fullscreenFailed:'Fullscreen is unavailable in this browser.',pageTitle:'Robot Lab — Aaron',loadKept:'Your previous model is still available. Close this notice to continue.',dismiss:'Dismiss',
   },
   zh: {
-    skip:'跳转到关节控制',back:'个人主页',eyebrow:'从文件，到运动',title:'走近机械结构，探索每一轴。',intro:'旋转模型，调节关节，看看各个部分如何连接。',viewportLabel:'三维模型查看器',fit:'适应视图',cameraLabel:'相机视角',iso:'透视',front:'正视',side:'侧视',top:'顶视',fullscreen:'切换全屏',canvasLabel:'可交互的三维机器人。拖动旋转视角，右键拖动平移，滚轮缩放。',retry:'加载 ZERO ARM',gesture:'拖动旋转 · 右键平移 · 滚轮缩放',grid:'网格',frames:'关节坐标系',wireframe:'线框',colors:'连杆分色',saveImage:'保存图片 ↗',position:'连杆坐标系位置',measuredFrame:'测量的连杆坐标系',controlsEyebrow:'运动学控制',joints:'关节探索',waiting:'模型加载后，关节控制将在这里显示。',reset:'姿态复位',exportPose:'导出姿态',structure:'模型结构',modelNote:'基于 URDF 的运动学查看，不包含物理仿真或碰撞检测。ZERO ARM 的关节限位是模型占位值，尚未经过硬件标定。',privacy:'我的 ZERO ARM 机械臂交互展示。',download:'下载 ZERO ARM ZIP ↓',support:'6 轴 / 7 个连杆 / URDF + STL',loading:'正在加载机器人…',fetching:'正在下载模型',unpacking:'正在解压 ZIP…',building:'正在构建机器人…',failed:'模型加载失败。',links:'个连杆',jointCount:'个可动关节',degrees:'度',millimetres:'毫米',noJoints:'此模型没有支持调节的可动关节。',unsupported:'浮动关节和平面关节以零位姿显示。',resetDone:'所有关节已复位。',imageDone:'图片已保存。',poseDone:'姿态已导出。',exportFailed:'无法导出图片。',fullscreenFailed:'此浏览器暂不支持全屏。',pageTitle:'机械臂实验室 — Aaron',loadKept:'上一个模型仍然可用。关闭此提示后可继续操作。',dismiss:'关闭提示',
+    skip:'跳转到关节控制',back:'个人主页',eyebrow:'从文件，到运动',title:'走近机械结构，探索每一轴。',intro:'旋转模型，调节关节，看看各个部分如何连接。',viewportLabel:'三维模型查看器',fit:'适应视图',cameraLabel:'相机视角',iso:'透视',front:'正视',side:'侧视',top:'顶视',fullscreen:'切换全屏',canvasLabel:'可交互的三维机器人。拖动旋转视角，右键或 Shift＋左键拖动平移，滚轮缩放。',retry:'加载 ZERO ARM',gesture:'拖动旋转 · 右键 / Shift＋左键平移 · 滚轮缩放',grid:'网格',frames:'关节坐标系',colors:'连杆分色',controlsEyebrow:'运动学控制',joints:'关节探索',waiting:'模型加载后，关节控制将在这里显示。',reset:'姿态复位',modelNote:'基于 URDF 的运动学查看，不包含物理仿真或碰撞检测。ZERO ARM 的关节限位是模型占位值，尚未经过硬件标定。',loading:'正在加载机器人…',fetching:'正在加载模型',unpacking:'正在解压 ZIP…',building:'正在构建机器人…',failed:'模型加载失败。',links:'个连杆',jointCount:'个可动关节',degrees:'度',millimetres:'毫米',noJoints:'此模型没有支持调节的可动关节。',unsupported:'浮动关节和平面关节以零位姿显示。',resetDone:'所有关节已复位。',fullscreenFailed:'此浏览器暂不支持全屏。',pageTitle:'机械臂实验室 — Aaron',loadKept:'上一个模型仍然可用。关闭此提示后可继续操作。',dismiss:'关闭提示',
   }
 };
 const $ = id => document.getElementById(id);
@@ -20,7 +21,6 @@ let language = 'en';
 try { language = localStorage.getItem('aaron-portfolio-language') === 'zh' ? 'zh' : 'en'; } catch {}
 const t = key => words[language][key];
 let robot = null;
-const currentFileName = 'ZERO_ARM_urdf_online_verified.zip';
 let jointControls = [];
 let frameHelpers = [];
 let meshMaterials = [];
@@ -74,7 +74,7 @@ function setBusy(value, phase = 'loading') {
   $('retry-load').hidden = true;
   $('load-detail').textContent = '';
   if (value) $('load-message').textContent = t(phase);
-  for (const id of ['fit-view','camera-view','save-image','frame-select','reset-pose','export-pose']) $(id).disabled = value || !robot;
+  for (const id of ['fit-view','camera-view','reset-pose']) $(id).disabled = value || !robot;
   jointControls.forEach(({ range, number }) => { range.disabled = number.disabled = value; });
 }
 
@@ -110,7 +110,6 @@ const cameraDirection = new THREE.Vector3(1.2, -1.7, 1.05).normalize();
 const modelBounds = new THREE.Box3();
 const modelCenter = new THREE.Vector3();
 const modelSize = new THREE.Vector3();
-const framePosition = new THREE.Vector3();
 let modelScale = 1;
 
 function initializeScene() {
@@ -125,6 +124,8 @@ function initializeScene() {
   camera.up.set(0,0,1);
   camera.position.set(0.7,-1,0.65);
   controls = new OrbitControls(camera,renderer.domElement);
+  controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
+  protectViewerInput(renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.12;
   controls.addEventListener('change',() => { dirty = true; });
@@ -319,14 +320,9 @@ function labelControl(control) {
   control.number.setAttribute('aria-label',`${control.joint.name} ${unit}`);
 }
 
-function updateFramePosition() {
+function updateRobotPose() {
   if (!robot) return;
   robot.updateMatrixWorld(true);
-  const frame = robot.links[$('frame-select').value];
-  if (!frame) return;
-  frame.getWorldPosition(framePosition);
-  // The robot root retains the original URDF base frame; the camera is Z-up.
-  for (const axis of ['x','y','z']) $('frame-' + axis).textContent = (Math.abs(framePosition[axis]) < 0.000005 ? 0 : framePosition[axis] * 1000).toFixed(2);
   dirty = true;
 }
 
@@ -336,7 +332,7 @@ function updateJoint(control, requested, preserveNumber = false) {
   value = THREE.MathUtils.clamp(value,control.lower,control.upper);
   robot.setJointValue(control.joint.name,value / control.factor);
   syncJointControls(preserveNumber ? control.number : null);
-  updateFramePosition();
+  updateRobotPose();
 }
 
 function syncJointControls(preservedInput = null) {
@@ -349,17 +345,10 @@ function syncJointControls(preservedInput = null) {
 
 function buildJointControls() {
   $('joint-list').replaceChildren();
-  $('model-tree').replaceChildren();
-  $('frame-select').replaceChildren();
   jointControls = [];
   const supported = ['revolute','continuous','prismatic'];
   const allJoints = Object.values(robot.joints);
   for (const joint of allJoints) {
-    const treeRow = document.createElement('div');
-    treeRow.className = 'model-tree-row';
-    const type = document.createElement('span'); type.textContent = joint.jointType;
-    const relation = document.createElement('span'); relation.textContent = `${joint.name}: ${joint.parent?.name || '—'} → ${joint.children.find(child => child.isURDFLink)?.name || '—'}`;
-    treeRow.append(type,relation); $('model-tree').append(treeRow);
     if (!supported.includes(joint.jointType) || joint.isURDFMimicJoint) continue;
     const linear = joint.jointType === 'prismatic';
     const factor = linear ? 1000 : 180 / Math.PI;
@@ -389,9 +378,6 @@ function buildJointControls() {
   }
   if (!jointControls.length) { const note = document.createElement('p'); note.className = 'waiting-copy'; note.textContent = t('noJoints'); $('joint-list').append(note); }
   if (allJoints.some(joint => ['floating','planar'].includes(joint.jointType))) { const note = document.createElement('p'); note.className = 'waiting-copy'; note.textContent = t('unsupported'); $('joint-list').append(note); }
-  for (const name of Object.keys(robot.links)) { const option = document.createElement('option'); option.value = option.textContent = name; $('frame-select').append(option); }
-  const leaf = Object.values(robot.links).findLast(link => !link.children.some(child => child.isURDFJoint));
-  $('frame-select').value = leaf?.name || Object.keys(robot.links).at(-1);
   updateStatistics();
   syncJointControls();
 }
@@ -430,7 +416,6 @@ function applyDisplayOptions() {
   if (grid) grid.visible = $('show-grid').checked;
   frameHelpers.forEach(helper => { helper.visible = $('show-frames').checked; });
   meshMaterials.forEach(({material,originalColor,linkColor}) => {
-    material.wireframe = $('wireframe').checked;
     material.color.copy($('link-colors').checked ? linkColor : originalColor);
   });
   dirty = true;
@@ -449,11 +434,10 @@ async function displayDescription(archive,urdfPath) {
   scene.add(robot);
   disposeObject(previous);
   $('model-name').textContent = robot.robotName || robot.name || 'URDF';
-  $('file-name').textContent = currentFileName;
   setupFloor();
   styleRobot();
   buildJointControls();
-  updateFramePosition();
+  updateRobotPose();
   $('camera-view').value = 'iso';
   fitView('iso');
   setBusy(false);
@@ -493,33 +477,12 @@ async function loadDefault() {
   } catch (error) { showError(error); }
 }
 
-function download(blob,filename) {
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement('a'); anchor.href = url; anchor.download = filename; anchor.hidden = true;
-  document.body.append(anchor);
-  anchor.click();
-  setTimeout(() => anchor.remove(),1000);
-  setTimeout(() => URL.revokeObjectURL(url),30000);
-}
-
 $('fit-view').addEventListener('click',() => fitView());
 $('camera-view').addEventListener('change',() => fitView());
-$('frame-select').addEventListener('change',updateFramePosition);
-for (const id of ['show-grid','show-frames','wireframe','link-colors']) $(id).addEventListener('change',applyDisplayOptions);
+for (const id of ['show-grid','show-frames','link-colors']) $(id).addEventListener('change',applyDisplayOptions);
 $('reset-pose').addEventListener('click',() => {
   for (const {joint,lower,upper,factor} of jointControls) robot.setJointValue(joint.name,THREE.MathUtils.clamp(0,lower,upper) / factor);
-  syncJointControls(); updateFramePosition(); notice(t('resetDone'));
-});
-$('export-pose').addEventListener('click',() => {
-  const joints = Object.fromEntries(Object.entries(robot.joints).filter(([,joint]) => joint.jointValue.length).map(([name,joint]) => [name,{type:joint.jointType,unit:joint.jointType === 'prismatic' ? 'metres' : 'radians',value:joint.jointValue.length === 1 ? joint.jointValue[0] : [...joint.jointValue]}]));
-  download(new Blob([JSON.stringify({robot:robot.robotName || robot.name,source:currentFileName,reference:'URDF base frame',joints},null,2)],{type:'application/json'}),'robot-pose.json');
-  notice(t('poseDone'));
-});
-$('save-image').addEventListener('click',() => {
-  try {
-    renderer.render(scene,camera);
-    renderer.domElement.toBlob(blob => { if (blob) { download(blob,'robot-view.png'); notice(t('imageDone')); } else notice(t('exportFailed')); },'image/png');
-  } catch { notice(t('exportFailed')); }
+  syncJointControls(); updateRobotPose(); notice(t('resetDone'));
 });
 $('fullscreen').addEventListener('click',async () => {
   try { if (document.fullscreenElement) await document.exitFullscreen(); else await $('lab-workspace').requestFullscreen(); }
