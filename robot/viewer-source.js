@@ -86,6 +86,7 @@ function showError(error) {
   $('load-detail').textContent = String(error.message || error) + (robot ? '\n' + t('loadKept') : '');
   $('retry-load').hidden = false;
   $('retry-load').textContent = robot ? t('dismiss') : t('retry');
+  if (isEmbedded) parent.postMessage({type:'aaron-model-error'},location.origin);
 }
 
 function disposeObject(object) {
@@ -113,7 +114,7 @@ const modelSize = new THREE.Vector3();
 let modelScale = 1;
 
 function initializeScene() {
-  renderer = new THREE.WebGLRenderer({canvas:$('robot-canvas'),antialias:true,alpha:false,preserveDrawingBuffer:true});
+  renderer = new THREE.WebGLRenderer({canvas:$('robot-canvas'),antialias:true,alpha:false});
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75));
   renderer.setClearColor('#e9ede7');
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -146,9 +147,14 @@ function initializeScene() {
   };
   new ResizeObserver(resize).observe(canvasWrap);
   resize();
+  let visible = true;
+  new IntersectionObserver(entries => {
+    visible = entries[0].isIntersecting;
+    if (visible) dirty = true;
+  }).observe(canvasWrap);
   const animate = () => {
     requestAnimationFrame(animate);
-    if (document.hidden) return;
+    if (document.hidden || !visible) return;
     if (controls.update()) dirty = true;
     if (dirty) { renderer.render(scene,camera); dirty = false; }
   };
@@ -448,6 +454,8 @@ async function displayDescription(archive,urdfPath) {
   $('camera-view').value = 'iso';
   fitView('iso');
   setBusy(false);
+  renderer.render(scene,camera);
+  if (isEmbedded) parent.postMessage({type:'aaron-model-ready'},location.origin);
 }
 
 async function openArchive(data) {

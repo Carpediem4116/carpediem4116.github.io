@@ -19,17 +19,12 @@ if (carousel) {
   track.prepend(clone(originals.at(-1)));
   track.append(clone(originals[0]));
   const slides = [...track.children];
-  let position = 1, paused = reducedMotion.matches, focused = false;
+  let position = 1, focused = false;
   let visible = false, moving = false, timer = null, settleTimer = null;
-  const pauseButton = document.getElementById('project-autoplay');
   const dots = [...carousel.querySelectorAll('[data-slide-to]')];
   carousel.querySelector('.carousel-controls').hidden = false;
   carousel.classList.add('carousel-ready');
   const logicalIndex = () => (position - 1 + originals.length) % originals.length;
-  const labels = () => {
-    pauseButton.textContent = paused ? (chinese() ? '播放轮播' : 'Play autoplay') : (chinese() ? '暂停轮播' : 'Pause autoplay');
-    pauseButton.setAttribute('aria-pressed',String(paused));
-  };
   const paint = (animate = true) => {
     track.style.transition = animate && !reducedMotion.matches ? '' : 'none';
     const card = slides[position];
@@ -43,7 +38,7 @@ if (carousel) {
   };
   const schedule = () => {
     clearInterval(timer);
-    if (!visible || paused || focused || document.hidden) return;
+    if (!visible || reducedMotion.matches || focused || document.hidden) return;
     // Count from the start of each switch, independently of its animation.
     timer = setInterval(() => move(1),5000);
   };
@@ -74,9 +69,8 @@ if (carousel) {
   document.getElementById('project-prev').addEventListener('click',() => move(-1,true));
   document.getElementById('project-next').addEventListener('click',() => move(1,true));
   dots.forEach((dot,index) => dot.addEventListener('click',() => go(index + 1,true)));
-  pauseButton.addEventListener('click',() => { paused = !paused; labels(); schedule(); });
-  // Keep timed playback running after arrow/dot clicks. Pause only while a
-  // reader is focused inside the card itself, or uses the explicit pause button.
+  // Keep timed playback running after arrow/dot clicks. Pause while a reader
+  // is focused inside the card itself.
   viewport.addEventListener('focusin',() => { focused = true; schedule(); });
   viewport.addEventListener('focusout',event => { if (!viewport.contains(event.relatedTarget)) { focused = false; schedule(); } });
   carousel.addEventListener('keydown',event => {
@@ -102,37 +96,35 @@ if (carousel) {
   new ResizeObserver(() => { if (moving) settle(); paint(false); }).observe(viewport);
   new IntersectionObserver(entries => { visible = entries[0].isIntersecting; schedule(); },{threshold:0.25}).observe(viewport);
   document.addEventListener('visibilitychange',() => { if (document.hidden) settle(); schedule(); });
-  reducedMotion.addEventListener('change',() => { paused = reducedMotion.matches; labels(); paint(false); schedule(); });
-  document.addEventListener('portfolio-language',() => { labels(); document.getElementById('project-announcement').textContent = ''; });
-  labels(); paint(false);
+  reducedMotion.addEventListener('change',() => { paint(false); schedule(); });
+  document.addEventListener('portfolio-language',() => { document.getElementById('project-announcement').textContent = ''; });
+  paint(false);
 }
 
 // Original procedural light: slow moving ribbons, no videos or remote assets.
 const fluidStates = [];
-let backgroundPaused = reducedMotion.matches;
-const motionButton = document.getElementById('background-motion');
-const updateMotionLabel = () => {
-  motionButton.textContent = backgroundPaused ? (chinese() ? '播放动态背景' : 'Play background') : (chinese() ? '暂停动态背景' : 'Pause background');
-  motionButton.setAttribute('aria-pressed',String(backgroundPaused));
-};
 const vertexSource = 'attribute vec2 a_position;void main(){gl_Position=vec4(a_position,0.0,1.0);}';
 const fragmentSource = `
 precision mediump float;
 uniform vec2 u_size;
 uniform float u_time;
 uniform float u_dark;
+uniform vec2 u_pointer;
 float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
 float field(vec2 p){float n=0.,a=.5;for(int i=0;i<3;i++){n+=a*noise(p);p=mat2(.8,-.6,.6,.8)*p*2.1+2.7;a*=.5;}return n;}
 void main(){
  vec2 uv=gl_FragCoord.xy/u_size;vec2 p=(uv-.5)*vec2(u_size.x/u_size.y,1.)*2.;
+ vec2 cursor=(u_pointer-.5)*vec2(u_size.x/u_size.y,1.)*2.;
+ float influence=exp(-2.5*dot(p-cursor,p-cursor));
+ p+=(p-cursor)*influence*.13;
  float t=u_time*.08;
  vec2 warp=vec2(field(p+vec2(t,-t*.4)),field(p+vec2(-t*.6,t)+4.));
  float wave=sin(p.x*2.3+p.y*1.6+warp.x*5.+t);
  float ribbon=smoothstep(.05,.9,wave)*(.5+.5*field(p+warp+t*.25));
  float glow=exp(-3.*length(p-vec2(sin(t)*.7,cos(t*.7)*.3)));
  vec3 paper=vec3(.957,.949,.922);
- vec3 light=paper+vec3(-.018,-.004,.008)*ribbon+vec3(.018,.012,.004)*glow;
+ vec3 light=paper+vec3(-.027,-.009,.009)*ribbon+vec3(.018,.012,.004)*glow;
  vec3 dark=mix(vec3(.075,.105,.09),vec3(.23,.27,.23),ribbon*.85+glow*.12);
  dark+=vec3(.07,.018,.006)*pow(max(0.,wave),4.)*.35;
  gl_FragColor=vec4(mix(light,dark,u_dark),1.);
@@ -154,17 +146,26 @@ for (const canvas of document.querySelectorAll('[data-fluid]')) {
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const attribute = gl.getAttribLocation(program,'a_position'); gl.enableVertexAttribArray(attribute); gl.vertexAttribPointer(attribute,2,gl.FLOAT,false,0,0);
   const size = gl.getUniformLocation(program,'u_size'), time = gl.getUniformLocation(program,'u_time');
+  const pointer = gl.getUniformLocation(program,'u_pointer');
   gl.uniform1f(gl.getUniformLocation(program,'u_dark'),canvas.dataset.fluid === 'dark' ? 1 : 0);
-  const state = {visible:true,last:0,elapsed:0,render(stamp,still=false){
+  const state = {visible:true,last:0,elapsed:0,x:.5,y:.5,targetX:.5,targetY:.5,render(stamp,still=false){
     if (gl.isContextLost()) return;
-    if (!still && (!this.visible || document.hidden || backgroundPaused || stamp-this.last < 40)) return;
+    if (!still && (!this.visible || document.hidden || reducedMotion.matches || stamp-this.last < 40)) return;
     if (!still && this.last) this.elapsed += Math.min(stamp-this.last,80);
     this.last=stamp;
+    this.x+=(this.targetX-this.x)*.07;this.y+=(this.targetY-this.y)*.07;
     const ratio=Math.min(devicePixelRatio || 1,1),width=Math.max(1,Math.round(canvas.clientWidth*ratio)),height=Math.max(1,Math.round(canvas.clientHeight*ratio));
     if(canvas.width!==width || canvas.height!==height){canvas.width=width;canvas.height=height;gl.viewport(0,0,width,height);}
-    gl.useProgram(program);gl.uniform2f(size,width,height);gl.uniform1f(time,this.elapsed/1000);gl.drawArrays(gl.TRIANGLES,0,6);
+    gl.useProgram(program);gl.uniform2f(size,width,height);gl.uniform1f(time,this.elapsed/1000);gl.uniform2f(pointer,this.x,this.y);gl.drawArrays(gl.TRIANGLES,0,6);
   }};
   fluidStates.push(state);
+  document.addEventListener('pointermove',event=>{
+    if (event.pointerType !== 'mouse' || reducedMotion.matches || !state.visible) return;
+    const bounds=canvas.getBoundingClientRect();
+    if (!bounds.width || !bounds.height) return;
+    state.targetX=Math.max(0,Math.min(1,(event.clientX-bounds.left)/bounds.width));
+    state.targetY=1-Math.max(0,Math.min(1,(event.clientY-bounds.top)/bounds.height));
+  },{passive:true});
   new ResizeObserver(()=>state.render(performance.now(),true)).observe(canvas);
   new IntersectionObserver(entries=>{state.visible=entries[0].isIntersecting;state.last=0;}).observe(canvas);
   canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();state.visible=false;canvas.hidden=true;});
@@ -172,10 +173,7 @@ for (const canvas of document.querySelectorAll('[data-fluid]')) {
 }
 function animateBackground(stamp){fluidStates.forEach(state=>state.render(stamp));requestAnimationFrame(animateBackground);}
 requestAnimationFrame(animateBackground);
-motionButton.addEventListener('click',()=>{backgroundPaused=!backgroundPaused;fluidStates.forEach(state=>{state.last=0;});updateMotionLabel();});
-reducedMotion.addEventListener('change',()=>{backgroundPaused=reducedMotion.matches;updateMotionLabel();});
-document.addEventListener('portfolio-language',updateMotionLabel);
-updateMotionLabel();
+reducedMotion.addEventListener('change',()=>{fluidStates.forEach(state=>{state.last=0;});});
 
 const socialCaption = document.getElementById('social-caption');
 function contactCaption(link){
