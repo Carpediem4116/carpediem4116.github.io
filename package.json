@@ -1,0 +1,17 @@
+{
+  "name": "aaron-portfolio",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-viewer.mjs"
+  },
+  "dependencies": {
+    "fflate": "0.8.3",
+    "three": "0.186.1",
+    "urdf-loader": "0.13.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

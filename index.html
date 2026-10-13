@@ -7,8 +7,8 @@
   <meta name="description" content="Aaron's personal portfolio. Exploring mechanical design, embedded systems and robotic arm models.">
   <title>Aaron — Projects & ideas</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
-  <script src="./app.js" defer></script>
+  <link rel="stylesheet" href="./styles.css?v=2">
+  <script src="./app.js?v=2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
@@ -16,6 +16,7 @@
     <a class="wordmark" href="#home" aria-label="Aaron, home">a<span>.</span></a>
     <nav aria-label="Main navigation" data-aria="navLabel">
       <a href="#work" data-i18n="navWork">Work</a>
+      <a href="./robot/" data-i18n="navLab">Robot Lab</a>
       <a href="#about" data-i18n="navAbout">About</a>
       <a href="#cv">CV</a>
     </nav>
@@ -30,45 +31,11 @@
         <a href="#work" class="button primary"><span data-i18n="heroCta">Explore my work</span><span aria-hidden="true">↓</span></a>
         <p class="hero-note" data-i18n="heroNote">A collection of projects, experiments, and things in progress.</p>
       </div>
-      <div class="drawing-panel">
-        <div class="drawing-topline"><span data-i18n="sketchLabel">KINEMATIC SKETCH</span><span>FIG. 01</span></div>
-        <svg class="arm-sketch" id="arm-sketch" viewBox="0 0 480 420" role="img" aria-labelledby="sketch-title sketch-desc">
-          <title id="sketch-title" data-i18n="sketchTitle">An interactive robotic arm sketch</title>
-          <desc id="sketch-desc" data-i18n="sketchDesc">An illustrative two-link arm. Adjust the slider below to change the shoulder angle. This is a conceptual drawing, not a simulation of the project.</desc>
-          <defs>
-            <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#dedbd2" stroke-width=".6"/></pattern>
-            <marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#a34637"/></marker>
-          </defs>
-          <rect width="480" height="420" fill="url(#grid)"/>
-          <ellipse cx="232" cy="348" rx="135" ry="19" fill="#e8e4db"/>
-          <path d="M76 343H410" stroke="#aaa69b" stroke-width="1"/>
-          <path d="M149 343L162 321H238L252 343Z" fill="#e5e1d7" stroke="#353b37" stroke-width="2"/>
-          <path d="M176 322V292Q200 275 224 292V322" fill="#ede9df" stroke="#353b37" stroke-width="2"/>
-          <g id="shoulder" transform="rotate(0 200 285)">
-            <path d="M187 289L171 169L197 158L214 282Z" fill="#ddd9cf" stroke="#353b37" stroke-width="2.5"/>
-            <path d="M194 279L183 177" stroke="#989a91" stroke-width="1.5"/>
-            <g transform="rotate(-8 184 170)">
-              <path d="M183 155L323 114L331 139L190 182Z" fill="#eeebe3" stroke="#353b37" stroke-width="2.5"/>
-              <path d="M202 166L307 133" stroke="#989a91" stroke-width="1.5"/>
-              <circle cx="327" cy="128" r="17" fill="#ddd9cf" stroke="#353b37" stroke-width="2.5"/>
-              <circle cx="327" cy="128" r="6" fill="#a34637"/>
-              <path d="M341 123L369 111L379 123L367 139L344 135" fill="#eeebe3" stroke="#353b37" stroke-width="2"/>
-              <path d="M374 117L392 109L401 121M370 135L389 135L396 124" fill="none" stroke="#353b37" stroke-width="3" stroke-linecap="round"/>
-            </g>
-            <circle cx="184" cy="170" r="22" fill="#f5f3ec" stroke="#353b37" stroke-width="2.5"/>
-            <circle cx="184" cy="170" r="10" fill="#a34637"/>
-            <path d="M177 170H191M184 163V177" stroke="#f4f2eb" stroke-width="1"/>
-          </g>
-          <circle cx="200" cy="285" r="22" fill="#f5f3ec" stroke="#353b37" stroke-width="2.5"/>
-          <circle cx="200" cy="285" r="9" fill="#a34637"/>
-          <path d="M200 285H276M200 285V214" stroke="#a34637" stroke-width="1.2" marker-end="url(#arrow)"/>
-          <path d="M246 285A46 46 0 0 0 200 239" fill="none" stroke="#a34637" stroke-dasharray="3 4"/>
-          <g fill="#a34637" font-family="monospace" font-size="12"><text x="284" y="289">x</text><text x="196" y="202">z</text><text x="240" y="246">θ</text></g>
-          <path d="M104 130H150L172 150M329 174V203H387" stroke="#969b90" fill="none" stroke-width="1"/>
-          <g fill="#73796e" font-family="monospace" font-size="10"><text x="69" y="125">JOINT 02</text><text x="338" y="218">TOOL FRAME</text><text x="27" y="392">x →</text><text x="389" y="392">z ↑</text></g>
-        </svg>
-        <div class="sketch-control"><label for="joint-angle" data-i18n="jointLabel">Explore the shoulder angle</label><output id="angle-output" for="joint-angle">0°</output><input id="joint-angle" type="range" min="-25" max="35" value="0" step="1" aria-describedby="sketch-note"></div>
-        <p class="drawing-caption" id="sketch-note" data-i18n="sketchNote">An illustrative study, not the project's CAD model or simulation.</p>
+      <div class="drawing-panel real-model-panel">
+        <div class="drawing-topline"><span data-i18n="realModelLabel">LIVE 3D MODEL</span><span>ZERO ARM / 6 AXES</span></div>
+        <iframe id="robot-preview" class="robot-preview" src="./robot/?embed=1&v=2" title="ZERO ARM interactive 3D preview" loading="eager" allow="fullscreen"></iframe>
+        <p class="drawing-caption" data-i18n="modelHint">Drag to rotate · Scroll to zoom · Your real ZERO ARM model</p>
+        <a class="drawing-launch" href="./robot/"><span data-i18n="openLab">Open the six-axis explorer</span><span aria-hidden="true">↗</span></a>
       </div>
       <div class="hero-bottom"><span data-i18n="heroBottom">DESIGN / CODE / EXPLORATION</span><a href="#work" data-i18n="scroll">SCROLL TO EXPLORE ↓</a></div>
     </section>
@@ -87,3 +54,4 @@
   <footer class="site-footer section-wrap"><a class="wordmark" href="#home" aria-label="Aaron, home">a<span>.</span></a><p>© <span id="year">2026</span> Aaron<span class="footer-separator">/</span><span data-i18n="footer">Built with curiosity.</span></p><a href="#home" data-i18n="backTop">BACK TO TOP ↑</a></footer>
 </body>
 </html>
+
