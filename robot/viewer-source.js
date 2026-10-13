@@ -4,12 +4,17 @@ import { STLLoader } from 'three/addons/loaders/STLLoader.js';
 import URDFLoader from 'urdf-loader';
 import { unpackZip, findArchiveFile } from './archive.js';
 import { protectViewerInput } from './viewer-input.js';
+import { enableViewerKeyboard } from './viewer-keyboard.js';
 
 const words = {
   en: {
+    fetchTimeout:'The connection took too long. Please try loading the model again.',
+    mouseHelp:'Drag to rotate · Shift-drag to pan · Scroll to zoom',touchHelp:'One finger rotates · Two fingers move and zoom',keyboardHelp:'Focus the model: arrows rotate · Shift + arrows pan · + / − zoom · F fits the view',
     skip:'Skip to joint controls',back:'Portfolio',eyebrow:'FROM FILE TO MOTION',title:'A closer look at the mechanics.',intro:'Rotate the model. Explore each joint. See how it all connects.',viewportLabel:'3D model viewer',fit:'Fit view',cameraLabel:'Camera view',iso:'Perspective',front:'Front',side:'Side',top:'Top',fullscreen:'Toggle fullscreen',canvasLabel:'Interactive 3D robot. Drag to rotate, right-drag or Shift-left-drag to pan, and scroll to zoom.',retry:'Load ZERO ARM',gesture:'Drag to orbit · Right-drag / Shift-drag to pan · Scroll to zoom',grid:'Grid',frames:'Joint frames',colors:'Link colors',controlsEyebrow:'KINEMATIC CONTROLS',joints:'Joint explorer',waiting:'Joint controls appear when the model is ready.',reset:'Reset pose',modelNote:'URDF kinematics, without physics or collision checking. ZERO ARM joint limits are model placeholders, not calibrated hardware limits.',loading:'Loading robot…',fetching:'Loading model',unpacking:'Unpacking ZIP…',building:'Building the robot…',failed:'The model could not be loaded.',links:'links',jointCount:'movable joints',degrees:'degrees',millimetres:'millimetres',noJoints:'This model has no supported movable joints.',unsupported:'Floating and planar joints are shown at their zero pose.',resetDone:'All joints reset.',fullscreenFailed:'Fullscreen is unavailable in this browser.',pageTitle:'Robot Lab — Aaron',loadKept:'Your previous model is still available. Close this notice to continue.',dismiss:'Dismiss',
   },
   zh: {
+    fetchTimeout:'连接等待时间过长，请重新加载模型。',
+    mouseHelp:'拖动旋转 · Shift＋拖动平移 · 滚轮缩放',touchHelp:'单指旋转 · 双指平移与缩放',keyboardHelp:'聚焦模型：方向键旋转 · Shift＋方向键平移 · + / − 缩放 · F 适应视图',
     skip:'跳转到关节控制',back:'个人主页',eyebrow:'从文件，到运动',title:'走近机械结构，探索每一轴。',intro:'旋转模型，调节关节，看看各个部分如何连接。',viewportLabel:'三维模型查看器',fit:'适应视图',cameraLabel:'相机视角',iso:'透视',front:'正视',side:'侧视',top:'顶视',fullscreen:'切换全屏',canvasLabel:'可交互的三维机器人。拖动旋转视角，右键或 Shift＋左键拖动平移，滚轮缩放。',retry:'加载 ZERO ARM',gesture:'拖动旋转 · 右键 / Shift＋左键平移 · 滚轮缩放',grid:'网格',frames:'关节坐标系',colors:'连杆分色',controlsEyebrow:'运动学控制',joints:'关节探索',waiting:'模型加载后，关节控制将在这里显示。',reset:'姿态复位',modelNote:'基于 URDF 的运动学查看，不包含物理仿真或碰撞检测。ZERO ARM 的关节限位是模型占位值，尚未经过硬件标定。',loading:'正在加载机器人…',fetching:'正在加载模型',unpacking:'正在解压 ZIP…',building:'正在构建机器人…',failed:'模型加载失败。',links:'个连杆',jointCount:'个可动关节',degrees:'度',millimetres:'毫米',noJoints:'此模型没有支持调节的可动关节。',unsupported:'浮动关节和平面关节以零位姿显示。',resetDone:'所有关节已复位。',fullscreenFailed:'此浏览器暂不支持全屏。',pageTitle:'机械臂实验室 — Aaron',loadKept:'上一个模型仍然可用。关闭此提示后可继续操作。',dismiss:'关闭提示',
   }
 };
@@ -125,9 +130,12 @@ function initializeScene() {
   camera.up.set(0,0,1);
   camera.position.set(0.7,-1,0.65);
   controls = new OrbitControls(camera,renderer.domElement);
+  enableViewerKeyboard(renderer.domElement,controls,{ready:() => Boolean(robot) && !busy,fit:() => fitView()});
   controls.mouseButtons.RIGHT = THREE.MOUSE.PAN;
   protectViewerInput(renderer.domElement);
-  controls.enableDamping = true;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  controls.enableDamping = !reduceMotion.matches;
+  reduceMotion.addEventListener('change',() => { controls.enableDamping = !reduceMotion.matches; dirty = true; });
   controls.dampingFactor = 0.12;
   controls.addEventListener('change',() => { dirty = true; });
   scene.add(new THREE.AmbientLight(0xffffff,0.7));
@@ -163,6 +171,10 @@ function initializeScene() {
 
 function fitView(kind = $('camera-view').value) {
   if (!robot) return;
+  // Finish any pending orbit inertia before assigning a precise fitted view.
+  const damping = controls.enableDamping;
+  controls.enableDamping = false;
+  controls.update();
   camera.aspect = canvasWrap.clientWidth / Math.max(canvasWrap.clientHeight,1);
   robot.updateMatrixWorld(true);
   modelBounds.setFromObject(robot);
@@ -170,7 +182,7 @@ function fitView(kind = $('camera-view').value) {
   modelBounds.getSize(modelSize);
   const radius = Math.max(modelSize.length() / 2,0.01);
   const halfFov = Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * Math.min(camera.aspect,1));
-  const distance = radius / Math.sin(halfFov) * (isEmbedded ? 0.74 : 1.12);
+  const distance = radius / Math.sin(halfFov) * (isEmbedded ? 0.74 : 1);
   if (kind === 'front') cameraDirection.set(0,-1,0.03).normalize();
   else if (kind === 'side') cameraDirection.set(1,0,0.03).normalize();
   else if (kind === 'top') cameraDirection.set(0,-0.0001,1).normalize();
@@ -189,6 +201,7 @@ function fitView(kind = $('camera-view').value) {
   controls.maxDistance = radius * 30;
   controls.target.copy(modelCenter);
   controls.update();
+  controls.enableDamping = damping;
   dirty = true;
 }
 
@@ -467,9 +480,11 @@ async function openArchive(data) {
 
 async function loadDefault() {
   if (busy) return;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(),45000);
   try {
     setBusy(true,'fetching');
-    const response = await fetch(new URL('./assets/zero-arm.zip',import.meta.url));
+    const response = await fetch(new URL('./assets/zero-arm.zip',import.meta.url),{signal:controller.signal});
     if (!response.ok) throw new Error(`Model download failed (${response.status}).`);
     const total = Number(response.headers.get('content-length'));
     if (total > 50 * 1024 * 1024) throw new Error('Model download exceeds 50 MB.');
@@ -488,8 +503,10 @@ async function loadDefault() {
       bytes = new Uint8Array(length); let offset = 0;
       for (const chunk of chunks) { bytes.set(chunk,offset); offset += chunk.length; }
     } else bytes = new Uint8Array(await response.arrayBuffer());
+    clearTimeout(timeout);
     await openArchive(bytes);
-  } catch (error) { showError(error); }
+  } catch (error) { showError(error.name === 'AbortError' ? new Error(t('fetchTimeout')) : error); }
+  finally { clearTimeout(timeout); }
 }
 
 $('fit-view').addEventListener('click',() => fitView());

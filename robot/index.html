@@ -7,9 +7,9 @@
   <meta name="description" content="Explore Aaron's six-axis robotic arm in 3D. View URDF models and control each joint directly in your browser.">
   <title>Robot Lab — Aaron</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../styles.css?v=7">
-  <link rel="stylesheet" href="./viewer.css?v=4">
-  <script type="module" src="./viewer.js?v=7"></script>
+  <link rel="stylesheet" href="../styles.css?v=14">
+  <link rel="stylesheet" href="./viewer.css?v=5">
+  <script type="module" src="./viewer.js?v=10"></script>
 </head>
 <body class="lab-page">
   <a class="skip-link" href="#joint-panel" data-t="skip">Skip to joint controls</a>
@@ -19,8 +19,9 @@
     <div class="lab-workspace" id="lab-workspace">
       <section class="viewport-column" aria-label="3D model viewer" data-aria-t="viewportLabel">
         <div class="viewport-toolbar"><div class="model-badge"><span class="red-dot"></span><span id="model-name">ZERO ARM</span></div><div class="view-actions"><button id="fit-view" type="button" data-t="fit" disabled>Fit view</button><select id="camera-view" aria-label="Camera view" data-aria-t="cameraLabel" disabled><option value="iso" data-t="iso">Perspective</option><option value="front" data-t="front">Front</option><option value="side" data-t="side">Side</option><option value="top" data-t="top">Top</option></select><button id="fullscreen" type="button" aria-label="Toggle fullscreen" data-aria-t="fullscreen">⛶</button></div></div>
-        <div class="canvas-wrap" id="canvas-wrap"><canvas id="robot-canvas" aria-label="Interactive 3D robot. Drag to rotate, right-drag to pan, and scroll to zoom." data-aria-t="canvasLabel" tabindex="0"></canvas><div class="load-overlay" id="load-overlay" role="status" aria-live="polite"><span class="loader-ring" aria-hidden="true"></span><p id="load-message">Loading robot…</p><p id="load-detail" class="load-detail"></p><button type="button" id="retry-load" data-t="retry" hidden>Load ZERO ARM</button></div><div class="axis-key" aria-hidden="true"><span class="axis-x">X</span><span class="axis-y">Y</span><span class="axis-z">Z ↑</span></div><div class="viewport-hint" data-t="gesture">Drag to orbit · Right-drag to pan · Scroll to zoom</div></div>
-        <div class="viewport-options"><label><input id="show-grid" type="checkbox" checked><span data-t="grid">Grid</span></label><label><input id="show-frames" type="checkbox"><span data-t="frames">Joint frames</span></label><label><input id="link-colors" type="checkbox"><span data-t="colors">Link colors</span></label></div>
+        <div class="canvas-wrap" id="canvas-wrap"><canvas id="robot-canvas" aria-label="Interactive 3D robot. Drag to rotate, right-drag to pan, and scroll to zoom." data-aria-t="canvasLabel" aria-describedby="keyboard-help" tabindex="0"></canvas><div class="load-overlay" id="load-overlay" role="status" aria-live="polite"><span class="loader-ring" aria-hidden="true"></span><p id="load-message">Loading robot…</p><p id="load-detail" class="load-detail"></p><button type="button" id="retry-load" data-t="retry" hidden>Load ZERO ARM</button></div><div class="axis-key" aria-hidden="true"><span class="axis-x">X</span><span class="axis-y">Y</span><span class="axis-z">Z ↑</span></div><div class="viewport-hint" data-t="gesture">Drag to orbit · Right-drag to pan · Scroll to zoom</div></div>
+        <div class="viewport-options"><label><input id="show-grid" type="checkbox" checked><span data-t="grid">Grid</span></label><label><input id="show-frames" type="checkbox"><span data-t="frames">Joint frames</span></label><label><input id="link-colors" type="checkbox" checked><span data-t="colors">Link colors</span></label></div>
+        <div class="lab-instructions"><p class="mouse-help" data-t="mouseHelp">Drag to rotate · Shift-drag to pan · Scroll to zoom</p><p class="touch-help" data-t="touchHelp">One finger rotates · Two fingers move and zoom</p><p class="keyboard-help" id="keyboard-help" data-t="keyboardHelp">Focus the model: arrows rotate · Shift + arrows pan · + / − zoom · F fits the view</p></div>
       </section>
       <aside class="joint-panel" id="joint-panel" aria-labelledby="joint-heading"><div class="panel-heading"><div><p class="eyebrow" data-t="controlsEyebrow">KINEMATIC CONTROLS</p><h2 id="joint-heading" data-t="joints">Joint explorer</h2></div><span id="model-stats" class="model-stats">—</span></div><div class="joint-list" id="joint-list"><p class="waiting-copy" data-t="waiting">Joint controls appear when the model is ready.</p></div><div class="pose-actions"><button id="reset-pose" type="button" class="button primary" disabled><span aria-hidden="true">↺</span><span data-t="reset">Reset pose</span></button></div><p class="model-note" data-t="modelNote">URDF kinematics, without physics or collision checking. ZERO ARM joint limits are model placeholders, not calibrated hardware limits.</p></aside>
     </div>

@@ -2,6 +2,18 @@
 
 静态个人网站，部署于 GitHub Pages。默认英文，右上角可切换中文。
 
+## 页面与导航
+
+- `/`：主页与真实三维机械臂。
+- `/projects/`：项目轮播，只含 ZERO ARM 与 Coming soon。
+- `/projects/zero-arm/`：原有构建笔记与项目组成，独立详情页。
+- `/about/`：原有个人介绍。
+- `/cv/`：简历准备页，尚无 PDF 或新增履历。
+- `/contact/`：四个已确认的联系方式。
+- `/robot/`：完整三维关节查看器。
+
+所有路径都是可直接打开的静态页面；桌面共享当前页面导航，手机使用可键盘操作的折叠菜单。支持浏览器原生页面过渡的环境会显示短淡入，其余环境正常导航。旧的 About、CV、Contact 与项目详情锚点会转到独立页面。
+
 ## 首页与 Robot Lab
 
 首页原有概念草图已替换为真实 ZERO ARM 三维模型，默认开启连杆分色并使用更近的预览视角，可拖动旋转、右键平移、滚轮缩放。点击 Robot Lab / 机械臂入口进入 `/robot/` 完整查看器。
@@ -21,7 +33,7 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 ## 项目轮播、背景与联系入口
 
-- 轮播只包含机械臂和 Coming soon 两张卡片；CAD、STM32 与 URDF 都属于同一个机械臂项目，详情可在轮播下方展开。
+- 轮播只包含机械臂和 Coming soon 两张卡片；CAD、STM32 与 URDF 都属于同一个机械臂项目，构建笔记在独立详情页阅读。
 - 每 5 秒切换到下一张，计时独立于切换动画，首尾循环；支持前后按钮、圆点、方向键和触屏滑动。鼠标停留和切换按钮焦点不打断轮播；卡片内容获得焦点、页面不可见时暂停；界面不提供暂停按钮。轮播禁止滚动锚定，首尾归位和窗口尺寸变化不会影响页面纵向位置。
 - `effects.js` 绘制原创 WebGL 流动光影，浅色页面背景与深色底部联系区各一层；无视频、远程素材或额外运行依赖。不可见区域不绘制；尊重系统减少动态效果设置；界面不提供播放或暂停按钮。不支持 WebGL 时使用静态配色。
 - 底部提供邮箱、WhatsApp、GitHub 和用户确认的 LinkedIn 链接，不包括 YouTube 或 Discord。悬停或键盘聚焦显示对应联系提示。
@@ -31,7 +43,7 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 - 排版与阅读层级参考 Design Prompts 的 Swiss Minimalist；主视觉与交互入口参考 MotionSites 的 Design World 案例；背景流动与轻微指针响应参考 React Bits 的 Liquid Ether 概念。保留现有纸色、墨绿与陶红配色，流动背景为原创实现。
 - 首屏入场、正文标题和构建笔记展开使用官方 GSAP 3.15.0 核心库，文件位于 `vendor/`，版权与许可来源见该目录说明。`motion.js` 通过 `gsap.matchMedia` 响应系统减少动态效果设置，保留原生滚动、模型构图和五秒轮播。
-- 首页增加联系入口、固定导航和手机双行导航；构建笔记说明 CAD 到 URDF 的坐标系问题与当前验证边界。
+- 首页增加联系入口和统一导航；构建笔记保留原有 CAD 到 URDF 的坐标系问题与当前验证边界。此次多页面调整未扩写工程内容。
 - 模型加载时显示同一个 ZERO ARM 的封面，收到同源查看器就绪通知后切换到真实三维画面。模型离开可见区域时停止渲染。
 - Canonical、Open Graph 与分享封面已加入；标题与描述随语言切换。
 - 本地逐轮检查与发布记录位于工作区 `outputs/quality-review.md`，不属于线上页面内容。
@@ -50,7 +62,11 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 首页源码：`index.html`、`styles.css`、`app.js`、`effects.js`。查看器源码：`robot/index.html`、`robot/viewer.css`、`robot/viewer-source.js`、`robot/archive.js`。
 
-修改查看器 JavaScript 后运行 `npm ci`、`npm run build`，提交源码与生成的 `robot/viewer.js`、`robot/viewer.js.LEGAL.txt`。Pages 直接发布仓库根目录，无需在云端构建。修改 CSS / JS 后更新 HTML 中的版本查询参数，避免使用旧缓存。
+页面内容位于 `templates/`，共享导航和元信息位于 `scripts/build-pages.mjs`。修改后运行 `npm run build:pages`，同步提交生成的各页 HTML、sitemap 与 robots.txt。修改共享 CSS / JS 时更新生成脚本中的 assetVersion。
+
+修改查看器 JavaScript 后运行 `npm ci`、`npm run build`，提交源码与生成的 `robot/viewer.js`、`robot/viewer.js.LEGAL.txt`。Pages 直接发布仓库根目录，无需在云端构建。查看器的独立版本查询参数也须同步更新，避免使用旧缓存。
+
+完整 Robot Lab 支持聚焦模型后用方向键旋转、Shift＋方向键平移、加减号缩放、F 适应视图。工具栏、选项和关节输入具有至少 44px 的操作高度。加载请求在 45 秒后显示重试入口；首页失败时保留同一机械臂的静态预览。
 
 输入拦截源码位于 `robot/viewer-input.js`。依赖版本固定于 `package-lock.json`；许可证位于 `robot/THIRD_PARTY_NOTICES.md` 与 `robot/licenses/`。
 

@@ -99,3 +99,78 @@ nav{font-size:14px;gap:26px}nav a{min-height:44px;display:inline-flex;align-item
   .site-footer p{font-size:11px}.site-footer>a:last-child{font-size:10px}.project-copy h3{font-size:36px}
 }
 .hero h1 [data-i18n]{display:inline-block;max-width:100%}
+.model-error .model-poster{opacity:1;visibility:visible}
+.model-error .robot-preview{visibility:hidden}
+.model-fallback{position:absolute;left:14px;right:14px;bottom:12px;z-index:3;margin:0;padding:9px 12px;background:rgba(251,250,245,.95);border:1px solid var(--rule);font-size:12px;line-height:1.6;color:var(--ink);pointer-events:none}
+
+/* Shared editorial template, with separate destinations and native scrolling. */
+.site-header{width:100%;gap:28px;margin:0 auto;view-transition-name:site-header}
+.contact-section{position:relative;z-index:1}
+.site-header nav{gap:23px;font-size:13px}
+.site-header nav a[aria-current=page]{color:var(--red)}
+.site-header nav a[aria-current=page]:after{transform:scaleX(1)}
+.menu-toggle{display:none;width:44px;height:44px;flex:none;border:1px solid var(--rule);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer;padding:13px}
+.menu-toggle span{display:block;width:16px;height:1px;background:currentColor;transition:transform .2s;margin:5px 0}
+.menu-open .menu-toggle span:first-child{transform:translateY(3px) rotate(45deg)}
+.menu-open .menu-toggle span:last-child{transform:translateY(-3px) rotate(-45deg)}
+.drawing-panel,.cv-card,.featured-project{border-radius:20px;overflow:hidden}
+.project-slide{border-radius:22px}.social-panel{border-radius:22px}
+.inner-page main{min-height:56vh}
+.inner-page .page-title{font:400 clamp(45px,6vw,78px)/1.08 var(--serif);letter-spacing:-2.7px;margin-bottom:24px}
+.inner-page:lang(zh-CN) .page-title{font-size:clamp(40px,5.4vw,70px);line-height:1.35;letter-spacing:-1px}
+.page-intro{padding-top:76px;padding-bottom:44px}
+.page-lead{font-size:17px;line-height:1.8;color:var(--muted);max-width:490px;margin-bottom:28px}
+.projects-page .work-section{padding-top:0;padding-bottom:66px}
+.projects-page .section-heading>p:last-child{max-width:580px;margin-bottom:0}
+.projects-page .project-carousel{margin-bottom:0}
+.inner-page .contact-section{padding-top:52px;border-top:1px solid var(--rule)}
+.about-page .about-section{padding-top:86px;padding-bottom:80px;gap:80px;align-items:start}
+.about-page .about-copy{padding-top:52px}
+.cv-page .cv-section{padding-top:76px;padding-bottom:76px}
+.cv-page .cv-card{padding:52px;grid-template-columns:1fr 200px;align-items:center}
+.cv-page .cv-card .page-title{color:var(--paper)}
+.cv-page .cv-card p:not(.eyebrow){font-size:16px;line-height:1.75;max-width:600px}
+.cv-page .cv-stamp{min-height:160px}
+.contact-page .contact-section{padding-top:86px;padding-bottom:70px;border-top:0}
+.contact-title{font:inherit;font-weight:400;line-height:1.15;letter-spacing:inherit;margin:0;text-wrap:balance}
+.contact-link>:first-child{flex:1;min-width:0;text-wrap:balance}
+.contact-link>span:last-child{flex:none;margin-left:20px}
+.inner-page .page-title{text-wrap:balance}
+.detail-hero{display:grid;grid-template-columns:1.08fr 1fr;gap:65px;align-items:center;padding-top:75px;padding-bottom:65px}
+.detail-hero .page-intro{padding:0}.detail-hero .eyebrow{color:var(--red);margin-top:28px;margin-bottom:20px}
+.back-link{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:12px;border-bottom:1px solid var(--rule)}
+.back-link:hover{color:var(--red)}
+.detail-visual{height:420px;position:relative;display:block;background:#e9ede7;border:1px solid var(--rule);border-radius:20px;overflow:hidden}
+.detail-visual img{width:100%;height:100%;object-fit:contain;display:block;padding:8px 0 24px}
+.project-detail-section{padding-bottom:74px}
+.project-copy h2{font:400 42px/1.2 var(--serif);letter-spacing:-1px;margin-bottom:20px}
+.project-layer h3{font:500 16px/1.5 var(--sans);letter-spacing:0;margin-bottom:4px}
+.project-layer>span:last-child{display:none}
+.not-found{padding-bottom:80px}
+main:focus{outline:none}
+@media(max-width:1000px){.site-header nav{gap:17px}.detail-hero{gap:35px}.cv-page .cv-card{padding:40px;gap:35px}}
+@media(max-width:720px){
+  html{scroll-padding-top:96px}
+  .site-header{display:flex;gap:10px;padding:13px 23px;min-height:76px}
+  .site-header .wordmark{margin-right:auto}.site-header .language-toggle{margin-left:0}
+  .site-header nav{display:none;position:absolute;top:calc(100% + 6px);left:16px;right:16px;width:auto;margin:0;padding:14px;background:var(--white);border:1px solid var(--rule);border-radius:18px;box-shadow:0 12px 28px -15px #28342e55;gap:6px;grid-template-columns:1fr 1fr;z-index:45}
+  .site-header.menu-open nav{display:grid}.site-header nav a{font-size:14px;justify-content:flex-start;padding:10px 14px;min-height:48px}
+  .site-header nav a:after{left:14px;right:14px;bottom:5px}.menu-toggle{display:block}
+  .inner-page .page-title{font-size:46px;letter-spacing:-1.5px}
+  .inner-page:lang(zh-CN) .page-title{font-size:40px;line-height:1.4;letter-spacing:-.5px}
+  .page-intro{padding-top:48px;padding-bottom:28px}.page-lead{font-size:16px}
+  .projects-page .work-section{padding-bottom:45px}
+  .about-page .about-section{padding-top:50px;padding-bottom:52px;gap:14px}.about-page .about-copy{padding-top:0}
+  .cv-page .cv-section{padding-top:48px;padding-bottom:48px}.cv-page .cv-card{padding:30px 25px;grid-template-columns:1fr;gap:28px}
+  .cv-page .cv-stamp{min-height:130px}.cv-page .cv-card p:not(.eyebrow){font-size:15px}
+  .contact-page .contact-section{padding-top:52px;padding-bottom:35px}
+  .inner-page .contact-section{padding-top:38px}
+  .detail-hero{grid-template-columns:1fr;padding-top:36px;padding-bottom:32px;gap:28px}.detail-visual{height:350px}
+  .project-detail-section{padding-bottom:48px}.project-copy h2{font-size:34px}.not-found{padding-bottom:50px}
+}
+@view-transition{navigation:auto}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+@media(prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  ::view-transition-old(root),::view-transition-new(root){animation:none}
+}

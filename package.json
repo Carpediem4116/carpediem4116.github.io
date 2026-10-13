@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-viewer.mjs"
+    "build": "node scripts/build-viewer.mjs && node scripts/build-pages.mjs",
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "dependencies": {
     "fflate": "0.8.3",

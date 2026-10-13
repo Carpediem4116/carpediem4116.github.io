@@ -14,7 +14,7 @@
 
     // Only play the opening sequence when arriving at the top of the page.
     // Anchor links and browser history must preserve the reader's position.
-    if (scrollY < 30) {
+    if (scrollY < 30 && document.querySelector('.hero-copy')) {
       gsap.timeline({defaults:{ease:'power3.out',clearProps:'transform,opacity'}})
         .from('.hero-copy .eyebrow',{opacity:0,y:10,duration:.45},0)
         .from('.hero h1 [data-i18n]',{opacity:0,y:24,stagger:.12,duration:.8},.08)
@@ -22,6 +22,11 @@
         .from('.hero-description',{opacity:0,y:14,duration:.65},.22)
         .from('.hero-actions,.hero-note',{opacity:0,y:10,stagger:.08,duration:.6},.34)
         .from('.real-model-panel',{opacity:0,y:18,duration:.85},.15);
+    }
+    let intro;
+    if (scrollY < 30 && !document.querySelector('.hero-copy')) {
+      intro = document.querySelector('.page-intro,.about-section,.cv-card,.contact-title');
+      if (intro) reveal(intro,{duration:.75});
     }
 
     // Observe native scrolling without changing its speed or page geometry.
@@ -34,7 +39,9 @@
         }
       });
     },{threshold:.15});
-    document.querySelectorAll('.section-heading,.about-section>div:first-child,.cv-card,.contact-link').forEach(node => observer.observe(node));
+    document.querySelectorAll('.section-heading,.about-section>div:first-child,.cv-card,.contact-link,.featured-project').forEach(node => {
+      if (!intro || (!intro.contains(node) && !node.contains(intro))) observer.observe(node);
+    });
 
     const details = document.getElementById('project-details');
     let notesMotion;
