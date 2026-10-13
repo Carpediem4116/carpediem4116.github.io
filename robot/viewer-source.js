@@ -157,17 +157,24 @@ function initializeScene() {
 
 function fitView(kind = $('camera-view').value) {
   if (!robot) return;
+  camera.aspect = canvasWrap.clientWidth / Math.max(canvasWrap.clientHeight,1);
   robot.updateMatrixWorld(true);
   modelBounds.setFromObject(robot);
   modelBounds.getCenter(modelCenter);
   modelBounds.getSize(modelSize);
   const radius = Math.max(modelSize.length() / 2,0.01);
   const halfFov = Math.atan(Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * Math.min(camera.aspect,1));
-  const distance = radius / Math.sin(halfFov) * (isEmbedded ? 0.94 : 1.12);
+  const distance = radius / Math.sin(halfFov) * (isEmbedded ? 0.74 : 1.12);
   if (kind === 'front') cameraDirection.set(0,-1,0.03).normalize();
   else if (kind === 'side') cameraDirection.set(1,0,0.03).normalize();
   else if (kind === 'top') cameraDirection.set(0,-0.0001,1).normalize();
-  else cameraDirection.set(1.2,-1.7,1.05).normalize();
+  else cameraDirection.set(isEmbedded ? 1.7 : 1.2,isEmbedded ? -1.2 : -1.7,isEmbedded ? 0.65 : 1.05).normalize();
+  // Match the homepage portrait framing while keeping the complete base visible.
+  if (isEmbedded) {
+    modelCenter.z -= modelSize.z * 0.09;
+    const screenRight = new THREE.Vector3(-cameraDirection.y,cameraDirection.x,0).normalize();
+    modelCenter.addScaledVector(screenRight,modelSize.z * 0.085);
+  }
   camera.position.copy(modelCenter).addScaledVector(cameraDirection,distance);
   camera.near = Math.max(radius / 1000,0.00001);
   camera.far = radius * 1000;
