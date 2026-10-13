@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = fileURLToPath(new URL('../',import.meta.url));
-const assetVersion = '14';
+const assetVersion = '17';
 const origin = 'https://carpediem4116.github.io';
 const partial = name => readFile(path.join(root,'templates',name+'.html'),'utf8');
 const contact = await partial('contact-footer');

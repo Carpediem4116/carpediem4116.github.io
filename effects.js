@@ -56,7 +56,7 @@ if (carousel) {
     position = target;
     moving = true;
     paint();
-    document.getElementById('project-announcement').textContent = announce ? `${logicalIndex() + 1} / ${originals.length}: ${originals[logicalIndex()].querySelector('h3').textContent}` : '';
+    document.getElementById('project-announcement').textContent = announce ? `${logicalIndex() + 1} / ${originals.length}: ${originals[logicalIndex()].querySelector('h2,h3').textContent}` : '';
     // A fallback covers transitions interrupted by resizing or tab visibility.
     settleTimer = setTimeout(settle,reducedMotion.matches ? 0 : 550);
     if (announce) schedule();
@@ -74,7 +74,14 @@ if (carousel) {
   viewport.addEventListener('focusin',() => { focused = true; schedule(); });
   viewport.addEventListener('focusout',event => { if (!viewport.contains(event.relatedTarget)) { focused = false; schedule(); } });
   carousel.addEventListener('keydown',event => {
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); move(event.key === 'ArrowLeft' ? -1 : 1,true); }
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    const backward = event.key === 'ArrowLeft';
+    const fromCard = viewport.contains(event.target);
+    move(backward ? -1 : 1,true);
+    // A card becomes inert when it leaves. Keep keyboard focus on a stable
+    // control rather than allowing the browser to drop it onto the page body.
+    if (fromCard) document.getElementById(backward ? 'project-prev' : 'project-next').focus({preventScroll:true});
   });
   let touchStart = null, suppressSwipeClick = false;
   viewport.addEventListener('pointerdown',event => { if (event.pointerType === 'touch') touchStart = {x:event.clientX,y:event.clientY}; });
