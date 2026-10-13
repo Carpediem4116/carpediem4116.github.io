@@ -528,4 +528,3 @@ $('retry-load').addEventListener('click',() => { if (robot) $('load-overlay').hi
 translate();
 try { initializeScene(); loadDefault(); }
 catch (error) { showError(new Error('WebGL is unavailable in this browser. ' + error.message)); $('retry-load').hidden = true; }
-

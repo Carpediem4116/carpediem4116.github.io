@@ -9,5 +9,6 @@ await build({
   minify:true,
   format:'esm',
   target:['es2022'],
+  supported:{'template-literal':false},
   legalComments:'external'
 });
