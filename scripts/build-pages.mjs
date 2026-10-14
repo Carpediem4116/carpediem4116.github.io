@@ -3,7 +3,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
 const root = fileURLToPath(new URL('../',import.meta.url));
-const assetVersion = '17';
+const assetVersion = '20';
 const origin = 'https://carpediem4116.github.io';
 const partial = name => readFile(path.join(root,'templates',name+'.html'),'utf8');
 const contact = await partial('contact-footer');
@@ -20,7 +20,7 @@ const pages = [
 const items = [['home','/','navHome','Home'],['projects','/projects/','navWork','Projects'],['robot','/robot/','navLab','Robot Lab'],['about','/about/','navAbout','About'],['cv','/cv/','navCv','CV'],['contact','/contact/','navContact','Contact']];
 function header(page) {
   const current = page.key === 'detail' ? 'projects' : page.key;
-  return `<header class="site-header"><a class="wordmark" href="/" aria-label="Aaron, home">a<span>.</span></a><nav id="site-navigation" aria-label="Main navigation" data-aria="navLabel">${items.map(([key,url,label,text])=>`<a href="${url}" data-i18n="${label}"${key===current?' aria-current="page"':''}>${text}</a>`).join('')}</nav><button id="language-toggle" class="language-toggle" type="button" aria-label="Switch to Chinese"><span aria-hidden="true">◎</span><span id="language-label">中文</span></button><button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span></button></header>`;
+  return `<header class="site-header"><a class="wordmark" href="/" aria-label="Aaron, home" data-aria="homeLabel">a<span>.</span></a><nav id="site-navigation" aria-label="Main navigation" data-aria="navLabel">${items.map(([key,url,label,text])=>`<a href="${url}" data-i18n="${label}"${key===current?' aria-current="page"':''}>${text}</a>`).join('')}</nav><button id="language-toggle" class="language-toggle" type="button" aria-label="Switch to Chinese"><span aria-hidden="true">◎</span><span id="language-label">中文</span></button><button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation"><span></span><span></span></button></header>`;
 }
 for (const page of pages) {
   const body = page.key==='notfound' ? '<section class="page-intro section-wrap not-found"><p class="eyebrow">404</p><h1 class="page-title" data-i18n="notFoundTitle">This page could not be found.</h1><a href="/" class="button primary" data-i18n="returnHome">Return home ↗</a></section>' : await partial(page.key);

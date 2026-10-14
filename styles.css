@@ -104,7 +104,7 @@ nav{font-size:14px;gap:26px}nav a{min-height:44px;display:inline-flex;align-item
 .model-fallback{position:absolute;left:14px;right:14px;bottom:12px;z-index:3;margin:0;padding:9px 12px;background:rgba(251,250,245,.95);border:1px solid var(--rule);font-size:12px;line-height:1.6;color:var(--ink);pointer-events:none}
 
 /* Shared editorial template, with separate destinations and native scrolling. */
-.site-header{width:100%;gap:28px;margin:0 auto;view-transition-name:site-header}
+.site-header{width:100%;gap:28px;margin:0 auto;view-transition-name:none}
 .contact-section{position:relative;z-index:1}
 .home-page .contact-section{padding-top:64px}
 .site-header nav{gap:23px;font-size:13px}
@@ -133,8 +133,11 @@ nav{font-size:14px;gap:26px}nav a{min-height:44px;display:inline-flex;align-item
 .cv-page .cv-section{padding-top:76px;padding-bottom:76px}
 .cv-page .cv-card{padding:52px;grid-template-columns:1fr 200px;align-items:center}
 .cv-page .cv-card .page-title{color:var(--paper)}
+#cv-title>span{display:inline-block}
 .cv-page .cv-card p:not(.eyebrow){font-size:16px;line-height:1.75;max-width:600px}
 .cv-page .cv-stamp{min-height:160px}
+.cv-page .document-icon{display:block;width:34px;height:42px}
+.cv-page .document-icon svg{display:block;width:100%;height:100%}
 .contact-page .contact-section{padding-top:86px;padding-bottom:70px;border-top:0}
 .contact-title{font:inherit;font-weight:400;line-height:1.15;letter-spacing:inherit;margin:0;text-wrap:balance}
 .contact-link>:first-child{flex:1;min-width:0;text-wrap:balance}
@@ -174,6 +177,11 @@ main:focus{outline:none}
   .project-detail-section{padding-bottom:48px}.project-copy h2{font-size:34px}.not-found{padding-bottom:50px}
 }
 @view-transition{navigation:auto}
+:root{view-transition-name:none;--navigation-height:87px}
+.home-page main,.inner-page main{view-transition-name:page-content}
+/* Keep the live navigation interactive while only the page content fades. */
+::view-transition{pointer-events:none;clip-path:inset(var(--navigation-height) 0 0)}
+@media(max-width:720px){:root{--navigation-height:76px}}
 @media(min-width:721px) and (max-width:900px){
   .hero{grid-template-columns:1fr;padding-top:50px;row-gap:28px}
   .hero-copy{max-width:620px}.hero h1{max-width:620px}
@@ -186,8 +194,8 @@ main:focus{outline:none}
   .about-page .about-copy{padding-top:0;max-width:600px}
   .cv-page .cv-card{grid-template-columns:minmax(0,1fr) 170px;padding:32px;gap:25px}
 }
-::view-transition-old(root),::view-transition-new(root){animation-duration:.22s}
+::view-transition-old(page-content),::view-transition-new(page-content){animation-duration:.22s}
 @media(prefers-reduced-motion:reduce){
   @view-transition{navigation:none}
-  ::view-transition-old(root),::view-transition-new(root){animation:none}
+  ::view-transition-old(page-content),::view-transition-new(page-content){animation:none}
 }

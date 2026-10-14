@@ -42,6 +42,7 @@ function translate() {
   document.querySelectorAll('[data-aria-t]').forEach(node => { node.setAttribute('aria-label', t(node.dataset.ariaT)); });
   $('lab-language-label').textContent = language === 'zh' ? 'EN' : '中文';
   $('lab-language').setAttribute('aria-label', language === 'zh' ? 'Switch to English' : '切换为中文');
+  $('lab-language').lang = language === 'zh' ? 'en' : 'zh-CN';
   if (busy) $('load-message').textContent = t(loadPhase) + progress;
   updateStatistics();
   jointControls.forEach(control => labelControl(control));
@@ -148,8 +149,19 @@ function initializeScene() {
   const resize = () => {
     const width = canvasWrap.clientWidth, height = canvasWrap.clientHeight;
     if (!width || !height) return;
+    const aspect = width / height;
+    if (robot && Math.abs(aspect - camera.aspect) > 1e-6) {
+      // Preserve the orbit, target and relative zoom when a narrower canvas
+      // makes the horizontal field of view the limiting dimension.
+      const tangent = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+      const previousHalfFov = Math.atan(tangent * Math.min(camera.aspect,1));
+      const nextHalfFov = Math.atan(tangent * Math.min(aspect,1));
+      camera.position.sub(controls.target)
+        .multiplyScalar(Math.sin(previousHalfFov) / Math.sin(nextHalfFov))
+        .add(controls.target);
+    }
     renderer.setSize(width,height,false);
-    camera.aspect = width / height;
+    camera.aspect = aspect;
     camera.updateProjectionMatrix();
     dirty = true;
   };

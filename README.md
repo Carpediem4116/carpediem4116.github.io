@@ -42,7 +42,7 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 ## 品质迭代
 
 - 排版与阅读层级参考 Design Prompts 的 Swiss Minimalist；主视觉与交互入口参考 MotionSites 的 Design World 案例；背景流动与轻微指针响应参考 React Bits 的 Liquid Ether 概念。保留现有纸色、墨绿与陶红配色，流动背景为原创实现。
-- 首屏入场、正文标题和构建笔记展开使用官方 GSAP 3.15.0 核心库，文件位于 `vendor/`，版权与许可来源见该目录说明。`motion.js` 通过 `gsap.matchMedia` 响应系统减少动态效果设置，保留原生滚动、模型构图和五秒轮播。
+- 首屏入场、内页和正文标题使用官方 GSAP 3.15.0 核心库，文件位于 `vendor/`，版权与许可来源见该目录说明。`motion.js` 通过 `gsap.matchMedia` 响应系统减少动态效果设置，保留原生滚动、模型构图和五秒轮播。原生跨页过渡只捕获正文，导航保持可立即交互。
 - 首页增加联系入口和统一导航；构建笔记保留原有 CAD 到 URDF 的坐标系问题与当前验证边界。此次多页面调整未扩写工程内容。
 - 模型加载时显示同一个 ZERO ARM 的封面，收到同源查看器就绪通知后切换到真实三维画面。模型离开可见区域时停止渲染。
 - Canonical、Open Graph 与分享封面已加入；标题与描述随语言切换。
@@ -60,13 +60,15 @@ CV 仍在准备中，完成后再加入公开版 PDF 和真实履历。
 
 在网站根目录运行 `python -m http.server 4173 --bind 127.0.0.1`，访问 `http://127.0.0.1:4173/`。三维查看器需要支持 WebGL 的浏览器和 HTTP 服务。
 
-首页源码：`index.html`、`styles.css`、`app.js`、`effects.js`。查看器源码：`robot/index.html`、`robot/viewer.css`、`robot/viewer-source.js`、`robot/archive.js`。
+共享样式与交互源码：`styles.css`、`app.js`、`effects.js`、`motion.js`。各页 HTML 从模板生成。查看器源码：`robot/index.html`、`robot/viewer.css`、`robot/viewer-source.js`、`robot/archive.js`。
 
 页面内容位于 `templates/`，共享导航和元信息位于 `scripts/build-pages.mjs`。修改后运行 `npm run build:pages`，同步提交生成的各页 HTML、sitemap 与 robots.txt。修改共享 CSS / JS 时更新生成脚本中的 assetVersion。
 
 修改查看器 JavaScript 后运行 `npm ci`、`npm run build`，提交源码与生成的 `robot/viewer.js`、`robot/viewer.js.LEGAL.txt`。Pages 直接发布仓库根目录，无需在云端构建。查看器的独立版本查询参数也须同步更新，避免使用旧缓存。
 
 完整 Robot Lab 支持聚焦模型后用方向键旋转、Shift＋方向键平移、加减号缩放、F 适应视图。工具栏、选项和关节输入具有至少 44px 的操作高度。加载请求在 45 秒后显示重试入口；首页失败时保留同一机械臂的静态预览。
+
+窗口或模型面板缩窄时，相机距离会随有效视角调整，保留当前旋转方向和缩放比例，不重设用户视角。图片替代文字、主页辅助标签与语言按钮的语言标记随中英文同步。
 
 输入拦截源码位于 `robot/viewer-input.js`。依赖版本固定于 `package-lock.json`；许可证位于 `robot/THIRD_PARTY_NOTICES.md` 与 `robot/licenses/`。
 

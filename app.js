@@ -1,6 +1,7 @@
 'use strict';
 const translations = {
   en: {
+    homeLabel:'Aaron, home',modelImageAlt:'ZERO ARM six-axis robotic arm, with colored links',cvTitleStart:'The next',cvTitleEnd:'chapter.',
     navHome:'Home',navCv:'CV',openMenu:'Open navigation',closeMenu:'Close navigation',projectsPageTitle:'Projects — Aaron',detailPageTitle:'ZERO ARM — Aaron',aboutPageTitle:'About — Aaron',cvPageTitle:'CV — Aaron',contactPageTitle:'Contact — Aaron',notfoundPageTitle:'Page not found — Aaron',notFoundTitle:'This page could not be found.',returnHome:'Return home ↗',
     modelPreviewLabel:'MODEL PREVIEW',modelFallbackHint:'Static preview · Open Robot Lab to retry the interactive model',
     modelFallback:'3D is unavailable right now. Preview shown; open Robot Lab to try again.',modelFallbackImage:'ZERO ARM six-axis robotic arm preview',
@@ -10,6 +11,7 @@ const translations = {
     skip:'Skip to content',navLabel:'Main navigation',navWork:'Projects',navAbout:'About',eyebrow:'AARON / PERSONAL PORTFOLIO',heroLine1:'Making ideas',heroLine2:'move.',heroDescription:'Exploring the space between mechanical design, embedded software, and the models that bring them together.',heroCta:'Explore my work',heroNote:'A collection of projects, experiments, and things in progress.',sketchLabel:'KINEMATIC SKETCH',sketchTitle:'An interactive robotic arm sketch',sketchDesc:'An illustrative two-link arm. Adjust the slider below to change the shoulder angle. This is a conceptual drawing, not a simulation of the project.',jointLabel:'Explore the shoulder angle',sketchNote:"An illustrative study, not the project's CAD model or simulation.",heroBottom:'DESIGN / CODE / EXPLORATION',scroll:'SCROLL TO EXPLORE ↓',workEyebrow:'01 / SELECTED WORK',workTitle:'From concept to components.',workIntro:"A closer look at what I'm building, and how it fits together.",ongoing:'IN PROGRESS',projectTitle:'Robotic Arm',projectLead:'Connecting mechanical models, embedded firmware, and a six-axis robot description.',projectDescription:'A project workspace spanning STEP assemblies and 3D printing resources, an STM32F103 firmware project, and D-H / URDF models. An exploration of the connections between physical structure and software.',repoLink:'Explore the repository',insideProject:'INSIDE THE PROJECT',mechanical:'Mechanical design',mechanicalText:'STEP assemblies, printable parts, and assembly references.',embedded:'Embedded software',embeddedText:'STM32F103, HAL, and FreeRTOS project structure.',robotModels:'Robot models',robotModelsText:'D-H parameters and a six-axis URDF description.',projectNotes:'Project notes & current status',projectStatus:'The repository documents CAD-to-URDF checks and a MATLAB zero-pose import. Full motion validation, firmware builds, and hardware operation remain work in progress.',readmeLink:'Read the project notes ↗',moreWork:'More projects will join this collection as they develop.',aboutEyebrow:'02 / A LITTLE ABOUT ME',aboutLine1:'Curiosity is',aboutLine2:'the starting point.',aboutLead:"Hi, I'm Aaron.",aboutText:"I enjoy exploring how things work across mechanical design and software. This site is a place to share the projects I'm working on, the ideas behind them, and what I'm learning along the way.",aboutText2:'Right now, that includes bringing together CAD, embedded firmware, and robot descriptions in a robotic arm project.',githubProfile:'Find me on GitHub',cvEyebrow:'03 / CURRICULUM VITAE',cvTitle:'The next chapter.',cvText:"My CV is taking shape. Education, experience, and a downloadable PDF will be added here when it's ready.",cvStatus:'CV IN PREPARATION',cvNote:'A work in progress.',contactEyebrow:'KEEP EXPLORING',contactTitle:"See what's next.",footer:'Built with curiosity.',backTop:'BACK TO TOP ↑',pageTitle:'Aaron — Projects & ideas',description:"Aaron's personal portfolio. Exploring mechanical design, embedded systems and robotic arm models."
   },
   zh: {
+    homeLabel:'Aaron，返回主页',modelImageAlt:'ZERO ARM 六轴机械臂，连杆分色展示',cvTitleStart:'下一章，',cvTitleEnd:'正在书写。',
     navHome:'主页',navCv:'CV',openMenu:'打开导航',closeMenu:'关闭导航',projectsPageTitle:'项目 — Aaron',detailPageTitle:'ZERO ARM — Aaron',aboutPageTitle:'关于 — Aaron',cvPageTitle:'简历 — Aaron',contactPageTitle:'联系 — Aaron',notfoundPageTitle:'页面未找到 — Aaron',notFoundTitle:'暂时找不到这个页面。',returnHome:'返回主页 ↗',
     modelPreviewLabel:'模型预览',modelFallbackHint:'静态预览 · 可打开 Robot Lab 重试交互模型',
     modelFallback:'三维模型暂时无法加载，先显示预览图。可打开 Robot Lab 重试。',modelFallbackImage:'ZERO ARM 六轴机械臂预览图',
@@ -33,15 +35,20 @@ function setLanguage(language) {
   document.querySelectorAll('[data-aria]').forEach(element => {
     element.setAttribute('aria-label', translations[selected][element.dataset.aria]);
   });
+  document.querySelectorAll('[data-alt]').forEach(element => {
+    element.alt = translations[selected][element.dataset.alt];
+  });
   document.title = translations[selected][page+'PageTitle'] || translations[selected].pageTitle;
   const descriptionKey = ({projects:'workIntro',detail:'projectLead',about:'aboutText',cv:'cvText',contact:'socialCaption',notfound:'notFoundTitle'})[page] || 'description';
   document.querySelector('meta[name="description"]').content = translations[selected][descriptionKey];
   document.querySelector('meta[property="og:title"]').content = document.title;
   document.querySelector('meta[property="og:description"]').content = translations[selected][descriptionKey];
+  document.querySelector('meta[property="og:image:alt"]').content = translations[selected].modelImageAlt;
   const fallbackPoster = document.querySelector('.model-error .model-poster');
   if (fallbackPoster) fallbackPoster.alt = translations[selected].modelFallbackImage;
   document.getElementById('language-label').textContent = selected === 'zh' ? 'EN' : '中文';
   languageToggle.setAttribute('aria-label',selected === 'zh' ? 'Switch to English' : '切换为中文');
+  languageToggle.lang = selected === 'zh' ? 'en' : 'zh-CN';
   const readme = document.getElementById('readme-link');
   if (readme) readme.href = 'https://github.com/Carpediem4116/Robotic-Arm/blob/main/readme-' + (selected === 'zh' ? 'cn' : 'en') + '.md';
   const preview = document.getElementById('robot-preview');
